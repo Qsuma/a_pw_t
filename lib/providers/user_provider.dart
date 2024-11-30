@@ -58,11 +58,15 @@ class UserProvider extends ChangeNotifier {
       int userId = decodedResp['user']['id'];
       prefs.userid = userId.toString();
       prefs.rol = decodedResp['role'];
-      return {'ok': true,
-               'role':decodedResp['role'],
-               'exist':decodedResp['exist'],         };
+      return {
+        'ok': true,
+        'role': decodedResp['role'],
+        'exist': decodedResp['exist'],
+      };
     }
-    return {'ok': false, 'mensaje': decodedResp['message'],
+    return {
+      'ok': false,
+      'mensaje': decodedResp['message'],
     };
   }
 }

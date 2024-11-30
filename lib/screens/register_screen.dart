@@ -196,13 +196,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   _register(LoginBloc bloc, BuildContext context) async {
     final info = await userRegisterProvider.registerUser(
-        bloc.user, bloc.password,);
+      bloc.user,
+      bloc.password,
+    );
     if (info['ok']) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar( SnackBar(
-            elevation: 100,
-            backgroundColor: theme.primaryColor,
-            content: const Center(child: Text('Registro Exitoso'))));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          elevation: 100,
+          backgroundColor: theme.primaryColor,
+          content: const Center(child: Text('Registro Exitoso'))));
       Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => const LoginScreen(),
       ));

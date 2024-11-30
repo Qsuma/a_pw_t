@@ -6,9 +6,7 @@ import 'package:app_tesis_yaliana/widgets/CrearEventoScreen/date_widget.dart';
 import 'package:app_tesis_yaliana/widgets/CrearEventoScreen/date_widget_year_only.dart';
 import 'package:app_tesis_yaliana/widgets/CrearEventoScreen/edicion_widget.dart';
 import 'package:app_tesis_yaliana/widgets/CrearEventoScreen/selector_nivel.dart';
-import 'package:app_tesis_yaliana/widgets/CrearEventoScreen/selector_toggleable.dart';
 import 'package:app_tesis_yaliana/widgets/esCopa.dart';
-
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +64,6 @@ class _CreateEventViewState extends State<CreateEventView> {
         child: Column(
           children: [
             _createContainerContents(),
-            
           ],
         ));
   }
@@ -104,7 +101,7 @@ class _CreateEventViewState extends State<CreateEventView> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-               ToggleCopaWidget(
+              ToggleCopaWidget(
                 onChanged: (bool value) {
                   setState(() {
                     esCopa = value;
@@ -119,7 +116,7 @@ class _CreateEventViewState extends State<CreateEventView> {
                     if (result != null) {
                       String base64String = base64Encode(
                           File(result.files.single.path!).readAsBytesSync());
-                      plantilla= base64String;
+                      plantilla = base64String;
                       // Muestra un mensaje de éxito
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
@@ -161,14 +158,13 @@ class _CreateEventViewState extends State<CreateEventView> {
                       hintText: '',
                     ),
                   )),
-                  RomanNumeralInput(
-  onChanged: (value) {
-    setState(() {
-      
-       edicion = value;
-    });
-  },
-),
+              RomanNumeralInput(
+                onChanged: (value) {
+                  setState(() {
+                    edicion = value;
+                  });
+                },
+              ),
             ],
           ),
           const Divider(),
@@ -244,45 +240,53 @@ class _CreateEventViewState extends State<CreateEventView> {
                   curso = year;
                 });
               }),
-              SizedBox(
-                height: 40,
-              ),
-              _createButtons(context,plantilla,nombreEvento,edicion,convocatoria,nivel,esCopa,fechaInicioEvento,fechaFinEvento,curso,lugar,descripcionEvento),
-              
+          SizedBox(
+            height: 40,
+          ),
+          _createButtons(
+              context,
+              plantilla,
+              nombreEvento,
+              edicion,
+              convocatoria,
+              nivel,
+              esCopa,
+              fechaInicioEvento,
+              fechaFinEvento,
+              curso,
+              lugar,
+              descripcionEvento),
         ],
       ),
     );
   }
 
-  _createButtons(BuildContext context, String plantilla,
-    String nombreEvento,
-    String edicion,
-    bool convocatoria,
-    String nivel,
-    bool esCopa,
-    DateTime fechaInicioEvento,
-    DateTime fechaFinEvento,
-    String curso,
-    String lugar,
-    String descripcionEvento) {
-   final eventProvider=Provider.of<EventProvider>(context);
-
-
-
-
+  _createButtons(
+      BuildContext context,
+      String plantilla,
+      String nombreEvento,
+      String edicion,
+      bool convocatoria,
+      String nivel,
+      bool esCopa,
+      DateTime fechaInicioEvento,
+      DateTime fechaFinEvento,
+      String curso,
+      String lugar,
+      String descripcionEvento) {
+    final eventProvider = Provider.of<EventProvider>(context);
 
     return Center(
       child: Wrap(
         children: [
           TextButton(
               style: ButtonStyle(
-                  backgroundColor:
-                      WidgetStatePropertyAll(Colors.red.shade400)),
+                  backgroundColor: WidgetStatePropertyAll(Colors.red.shade400)),
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text("Cancel",
-                  style: TextStyle(color: Colors.black))),
+              child:
+                  const Text("Cancel", style: TextStyle(color: Colors.black))),
           const SizedBox(
             width: 200,
           ),
@@ -291,7 +295,18 @@ class _CreateEventViewState extends State<CreateEventView> {
                   backgroundColor:
                       WidgetStatePropertyAll(Colors.blue.shade400)),
               onPressed: () {
-                eventProvider.postEvent(plantilla,nombreEvento,edicion,convocatoria,nivel,esCopa,fechaInicioEvento,fechaFinEvento,curso,lugar,descripcionEvento);
+                eventProvider.postEvent(
+                    plantilla,
+                    nombreEvento,
+                    edicion,
+                    convocatoria,
+                    nivel,
+                    esCopa,
+                    fechaInicioEvento,
+                    fechaFinEvento,
+                    curso,
+                    lugar,
+                    descripcionEvento);
               },
               child: const Text(
                 "Accept",

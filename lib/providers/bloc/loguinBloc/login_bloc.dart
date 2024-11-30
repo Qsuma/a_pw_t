@@ -52,7 +52,7 @@ class LoginBloc with Validators {
   Function(String) get changeConfirmarPassword =>
       _confirmarPasswordController.sink.add;
   Function(String) get changeIndice => _indiceController.sink.add;
-  Function(String) get changeGrupo  => _grupoController.sink.add;
+  Function(String) get changeGrupo => _grupoController.sink.add;
   Function(String) get changeName => _nameController.sink.add;
   Function(String) get changeUser => _userController.sink.add;
   Function(String) get changeFacultad => _facultadController.sink.add;

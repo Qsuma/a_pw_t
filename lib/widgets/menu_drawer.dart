@@ -1,5 +1,3 @@
-
-
 import 'package:app_tesis_yaliana/utils/route_animation.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +16,8 @@ class MyDrawer extends StatelessWidget {
             accountName: Text('Usuario'), // Nombre del usuario
             accountEmail: Text('usuario@example.com'), // Email del usuario
             currentAccountPicture: CircleAvatar(
-              backgroundImage:AssetImage('assets/perfil.jpeg'), // Imagen de perfil
+              backgroundImage:
+                  AssetImage('assets/perfil.jpeg'), // Imagen de perfil
             ),
           ),
           ListTile(
@@ -34,18 +33,24 @@ class MyDrawer extends StatelessWidget {
             leading: const Icon(Icons.exit_to_app), // Icono para cerrar sesión
             title: const Text('Crear Matrimonio'),
             onTap: () {
-              // Acción para cerrar la cuenta 
+              // Acción para cerrar la cuenta
               // Implementa la lógica aquís
-              Navigator.push(context, crearRuta( Container(),const Duration(seconds: 1))); // Cierra el Drawer
+              Navigator.push(
+                  context,
+                  crearRuta(Container(),
+                      const Duration(seconds: 1))); // Cierra el Drawer
             },
           ),
           ListTile(
             leading: const Icon(Icons.exit_to_app), // Icono para cerrar sesión
             title: const Text('Cerrar Cuenta'),
             onTap: () {
-              // Acción para cerrar la cuenta 
+              // Acción para cerrar la cuenta
               // Implementa la lógica aquís
-              Navigator.pushReplacement(context, crearRuta( const LoginScreen(),const Duration(seconds: 1))); // Cierra el Drawer
+              Navigator.pushReplacement(
+                  context,
+                  crearRuta(const LoginScreen(),
+                      const Duration(seconds: 1))); // Cierra el Drawer
             },
           ),
         ],

@@ -1,4 +1,3 @@
-import 'package:app_tesis_yaliana/screens/AdminView/crear_evento_View.dart';
 import 'package:flutter/material.dart';
 
 class StudentEventsView extends StatelessWidget {
@@ -148,9 +147,7 @@ class _buildHeaderSectionWidget extends StatelessWidget {
 }
 
 class _HeaderAppbarWidget extends StatelessWidget {
-
-  const _HeaderAppbarWidget(
-      {super.key,});
+  const _HeaderAppbarWidget();
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +183,6 @@ class _HeaderAppbarWidget extends StatelessWidget {
                 fontSize: 16,
               ),
             ),
-            
           ],
         ),
       ),

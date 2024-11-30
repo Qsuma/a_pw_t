@@ -1,7 +1,6 @@
 import 'package:app_tesis_yaliana/providers/bloc/loguinBloc/provider.dart';
 import 'package:app_tesis_yaliana/screens/AdminView/admin_home_screen.dart';
 import 'package:app_tesis_yaliana/screens/StudentView/register_student_screen.dart';
-import 'package:app_tesis_yaliana/screens/StudentView/student_register_view.dart';
 
 import 'package:app_tesis_yaliana/screens/register_screen.dart';
 import 'package:animate_do/animate_do.dart';
@@ -13,10 +12,6 @@ import '../providers/user_provider.dart';
 import '../utils/preferencias_usuario.dart';
 import '../utils/route_animation.dart';
 import '../widgets/alarms_dialog.dart';
-
-
-
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -44,7 +39,6 @@ class _LoginScreenState extends State<LoginScreen> {
       _login();
     }
   }
-
 
   @override
   void dispose() {
@@ -77,94 +71,102 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Stack(
         children: <Widget>[
           fondoMorado,
-           const Positioned(
-                  top: -40.0,
-                  left: 400.0,
-                  child: circulo(
-                    duration: Duration(seconds: 1),
-                    radius: 100,
-                  )),
           const Positioned(
-                  top: -10.0,
-                 right:-10,
-                  child: circulo(
-                     duration: Duration(seconds: 1),
-                    radius: 100,
-                  )),
+              top: -40.0,
+              left: 400.0,
+              child: circulo(
+                duration: Duration(seconds: 1),
+                radius: 100,
+              )),
           const Positioned(
-                  top: 180.0,
-                  left: 10,
-                  child: circulo(
-                     duration: Duration(seconds: 1),
-                    radius: 100,
-                  )),
+              top: -10.0,
+              right: -10,
+              child: circulo(
+                duration: Duration(seconds: 1),
+                radius: 100,
+              )),
+          const Positioned(
+              top: 180.0,
+              left: 10,
+              child: circulo(
+                duration: Duration(seconds: 1),
+                radius: 100,
+              )),
           const Positioned(
               top: 120.0,
               right: 100,
               child: circulo(
-                 duration: Duration(seconds: 1),
+                duration: Duration(seconds: 1),
                 radius: 100,
               )),
           const Positioned(
               top: -50.0,
               left: -20.0,
               child: circulo(
-                 duration: Duration(seconds: 1),
+                duration: Duration(seconds: 1),
                 radius: 100,
               )),
-              const Positioned(
+          const Positioned(
               top: -20.0,
               left: 160.0,
               child: circulo(
-                 duration: Duration(seconds: 1),
+                duration: Duration(seconds: 1),
                 radius: 100,
-              )),const Positioned(
-             bottom: 30,
+              )),
+          const Positioned(
+              bottom: 30,
               right: 300.0,
               child: circulo(
-                 duration: Duration(seconds: 1),
+                duration: Duration(seconds: 1),
                 radius: 100,
-              )),const Positioned(
+              )),
+          const Positioned(
               bottom: -10,
               left: 170.0,
               child: circulo(
-                 duration: Duration(seconds: 1),
+                duration: Duration(seconds: 1),
                 radius: 100,
-              )),const Positioned(
+              )),
+          const Positioned(
               top: 50,
               right: 200.0,
               child: circulo(
-                 duration: Duration(seconds: 1),
+                duration: Duration(seconds: 1),
                 radius: 100,
-              )),const Positioned(
+              )),
+          const Positioned(
               top: 170,
               left: 800.0,
               child: circulo(
-                 duration: Duration(seconds: 1),
+                duration: Duration(seconds: 1),
                 radius: 100,
-              )),const Positioned(
+              )),
+          const Positioned(
               top: -80,
               left: 700.0,
               child: circulo(
-                 duration: Duration(seconds: 1),
+                duration: Duration(seconds: 1),
                 radius: 100,
-              )),const Positioned(
+              )),
+          const Positioned(
               top: 200,
               left: 300.0,
               child: circulo(
-                 duration: Duration(seconds: 1),
+                duration: Duration(seconds: 1),
                 radius: 100,
-              )),const Positioned(
+              )),
+          const Positioned(
               top: 80,
               left: 1000.0,
               child: circulo(
-                 duration: Duration(seconds: 1),
+                duration: Duration(seconds: 1),
                 radius: 100,
-              )),const Positioned(
+              )),
+          const Positioned(
               top: 190,
               left: 480.0,
               child: circulo(
-                 duration: Duration(seconds: 1),
+                duration: Duration(seconds: 1),
                 radius: 100,
               )),
           Container(
@@ -176,9 +178,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Bounce(
                     duration: const Duration(seconds: 3),
                     child: Spin(
-                      child: const Icon(Icons.event,
-                      size: 40,
-                      color: Colors.blue,),
+                      child: const Icon(
+                        Icons.event,
+                        size: 40,
+                        color: Colors.blue,
+                      ),
                     ),
                   ),
                 ),
@@ -213,7 +217,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
           Container(
             width: size.width * 0.33,
-               
             margin: const EdgeInsets.symmetric(vertical: 30.0),
             padding: const EdgeInsets.symmetric(vertical: 50.0),
             decoration: BoxDecoration(
@@ -273,8 +276,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontWeight: FontWeight.bold),
                 ),
                 onTap: () {
-                  Navigator.pushReplacement(context,
-                      crearRuta(const RegisterScreen(), const Duration(microseconds: 700)));
+                  Navigator.pushReplacement(
+                      context,
+                      crearRuta(const RegisterScreen(),
+                          const Duration(microseconds: 700)));
                 },
               )
             ],
@@ -409,7 +414,9 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.pushReplacement(
         context,
         crearRuta(
-            (prefs.rol=='Estudiante')? const RegisterStudentScreen(): const EventManagementScreen(),
+            (prefs.rol == 'Estudiante')
+                ? const RegisterStudentScreen()
+                : const EventManagementScreen(),
             //RegisterScreen(),
             const Duration(milliseconds: 700)),
       );
@@ -452,7 +459,8 @@ class circulo extends StatelessWidget {
   final Duration duration;
   const circulo({
     super.key,
-    required this.radius, required this.duration,
+    required this.radius,
+    required this.duration,
   });
 
   @override

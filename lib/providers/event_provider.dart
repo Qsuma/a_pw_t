@@ -9,40 +9,80 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
-
-
 import '../helpers/debouncer.dart';
 
-
-
-
-
-
 class EventProvider extends ChangeNotifier {
- final Dio dio=Dio();
+  final Dio dio = Dio();
   final prefs = PreferenciasDeUsuario();
- 
- final _baseURL='192.168.139.65/core/api/v1/';
- 
 
+  final _baseURL = '192.168.139.65/core/api/v1/';
 
-  List<Event> eventos = [];
-  int page=0;
-  
- 
-  
+  List<Event> eventos = [
+    Event(
+        idevento: 1,
+        nombreEvento: "Festival de Música",
+        edicion: "Primera Edición",
+        convocatoria: true,
+        nivel: "Nacional",
+        esCopa: false,
+        fechaInicioEvento: DateTime(2023, 6, 15),
+        fechaFinEvento: DateTime(2023, 6, 17),
+        curso: "2023-2024",
+        lugar: "Parque Central",
+        descripcionEvento:
+            "Un festival de música que reunirá a artistas nacionales e internacionales."),
+    Event(
+        idevento: 2,
+        nombreEvento: "Maratón de Corriendo",
+        edicion: "Segunda Edición",
+        convocatoria: true,
+        nivel: "Regional",
+        esCopa: false,
+        fechaInicioEvento: DateTime(2023, 8, 12),
+        fechaFinEvento: DateTime(2023, 8, 12),
+        curso: "2023-2024",
+        lugar: "Estadio Municipal",
+        descripcionEvento:
+            "Una competencia de corredores de diferentes edades y niveles."),
+    Event(
+        idevento: 3,
+        nombreEvento: "Concierto de Rock",
+        edicion: "Primera Edición",
+        convocatoria: false,
+        nivel: "Local",
+        esCopa: false,
+        fechaInicioEvento: DateTime(2023, 9, 22),
+        fechaFinEvento: DateTime(2023, 9, 22),
+        curso: "2023-2024",
+        lugar: "Teatro Nacional",
+        descripcionEvento:
+            "Un concierto de rock con bandas locales populares."),
+    Event(
+        idevento: 4,
+        nombreEvento: "Campeonato Estudiantil de Deportes",
+        edicion: "Anual",
+        convocatoria: true,
+        nivel: "Escuelar",
+        esCopa: false,
+        fechaInicioEvento: DateTime(2023, 10, 1),
+        fechaFinEvento: DateTime(2023, 10, 5),
+        curso: "2023-2024",
+        lugar: "Complejo Deportivo Universitario",
+        descripcionEvento:
+            "Un torneo deportivo entre escuelas de la ciudad para estudiantes de diferentes niveles educativos.")
+  ];
+  int page = 0;
 
   final debouncer = Debouncer(
     duration: const Duration(milliseconds: 500),
   );
   final StreamController<List<Event>> _suggestionStreamController =
       StreamController.broadcast();
-    final ip= '192.168.150.65';
+  final ip = '192.168.150.65';
   Stream<List<Event>> get suggestionStream =>
       _suggestionStreamController.stream;
   EventProvider();
 
-   
   Future<String> _postEvent(Map<String, dynamic> data) async {
     final prefs = PreferenciasDeUsuario();
 
@@ -59,10 +99,8 @@ class EventProvider extends ChangeNotifier {
       return status! < 500;
     };
     try {
-      final response = await dio.post(
-          'http://$ip/core/api/v1/Evento',
-          data: data,
-          options: options);
+      final response = await dio.post('http://$ip/core/api/v1/Evento',
+          data: data, options: options);
 
       if (response.statusCode == 200 || response.statusCode == 200) {
         return response.data;
@@ -93,9 +131,8 @@ class EventProvider extends ChangeNotifier {
     };
 
     try {
-      final response = await dio.delete(
-          'http://$ip/core/api/v1/Evento',
-          options: options);
+      final response =
+          await dio.delete('http://$ip/core/api/v1/Evento', options: options);
 
       if (response.statusCode == 200) {
         return 'Eliminado Con Exito';
@@ -107,7 +144,7 @@ class EventProvider extends ChangeNotifier {
     }
   }
 
-  Future<String> _getJsonData(Map<String, dynamic> data, {int page = 1}) async {
+  Future<String> _getJsonData(Map<String, dynamic> data) async {
     final prefs = PreferenciasDeUsuario();
     var options = Options(
       method: 'GET',
@@ -123,10 +160,8 @@ class EventProvider extends ChangeNotifier {
     };
 
     try {
-      final response = await dio.get(
-          'http://$ip/core/api/v1/Evento',
-          options: options,
-          data: data);
+      final response = await dio.get('http://$ip/core/api/v1/Evento',
+          options: options, data: data);
 
       if (response.statusCode == 200) {
         return response.data;
@@ -138,8 +173,7 @@ class EventProvider extends ChangeNotifier {
     }
   }
 
-  Future<String> _patchEvent(
-       Map<String, dynamic> data) async {
+  Future<String> _patchEvent(Map<String, dynamic> data) async {
     final prefs = PreferenciasDeUsuario();
     var options = Options(
       method: 'PATCH',
@@ -154,10 +188,8 @@ class EventProvider extends ChangeNotifier {
       return status! < 500;
     };
     try {
-      final response = await dio.patch(
-          'http://$ip/core/api/v1/Evento',
-          data: data,
-          options: options);
+      final response = await dio.patch('http://$ip/core/api/v1/Evento',
+          data: data, options: options);
 
       if (response.statusCode == 200) {
         return response.data;
@@ -168,29 +200,30 @@ class EventProvider extends ChangeNotifier {
       throw Exception('Error al realizar la solicitud: $e');
     }
   }
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-getEvent(int id)async{
-  //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
-var data ={
- "id":id.toString()
-};
-  final jsonData = await _getJsonData(data);
-  final clientResponse = Event.fromRawJson(jsonData);
-  
-  notifyListeners();
-  return clientResponse;
-}
-deleteEvent(int id)async{
-  //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
-  final response = await _deleteEvent(id);
-  if (response == 'Eliminado Con Exito') {
+  getEvent(int id) async {
+    //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
+    var data = {"id": id.toString()};
+    final jsonData = await _getJsonData(data);
+    final clientResponse = Event.fromRawJson(jsonData);
+
+    notifyListeners();
+    return clientResponse;
+  }
+
+  deleteEvent(int id) async {
+    //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
+    final response = await _deleteEvent(id);
+    if (response == 'Eliminado Con Exito') {
       //TODO:ACTUALIZAR CLIENTETRAMITE
-  notifyListeners();
-  return response;
-}
+      notifyListeners();
+      return response;
+    }
+  }
 
-}
-patchEvent( String plantilla,
+  patchEvent(
+    String plantilla,
     String nombreEvento,
     String edicion,
     bool convocatoria,
@@ -200,32 +233,33 @@ patchEvent( String plantilla,
     DateTime fechaFinEvento,
     String curso,
     String lugar,
-    String descripcionEvento,) async {
-  
- final data = {
-    "nombre_evento": nombreEvento,
-    "edicion": edicion,
-    "convocatoria": convocatoria,
-    "nivel": nivel,
-    "es_copa": esCopa,
-    "fecha_inicio_evento": fechaInicioEvento,
-    "fecha_fin_evento": fechaFinEvento,
-    "curso": curso,
-    "lugar": lugar,
-    "descripcion_evento": descripcionEvento,
-    "plantilla": plantilla
-};
- //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
- final responseBody = await _patchEvent( data);
+    String descripcionEvento,
+  ) async {
+    final data = {
+      "nombre_evento": nombreEvento,
+      "edicion": edicion,
+      "convocatoria": convocatoria,
+      "nivel": nivel,
+      "es_copa": esCopa,
+      "fecha_inicio_evento": fechaInicioEvento,
+      "fecha_fin_evento": fechaFinEvento,
+      "curso": curso,
+      "lugar": lugar,
+      "descripcion_evento": descripcionEvento,
+      "plantilla": plantilla
+    };
+    //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
+    final responseBody = await _patchEvent(data);
 
- 
- final updateEventJson = json.decode(responseBody);
- final updatedEvent = Event.fromJson(updateEventJson);
+    final updateEventJson = json.decode(responseBody);
+    final updatedEvent = Event.fromJson(updateEventJson);
 //TODO:ACTUALIZAR CLIENTETRAMITE
 
- notifyListeners(); 
- }
-postEvent(String plantilla,
+    notifyListeners();
+  }
+
+  postEvent(
+    String plantilla,
     String nombreEvento,
     String edicion,
     bool convocatoria,
@@ -235,36 +269,34 @@ postEvent(String plantilla,
     DateTime fechaFinEvento,
     String curso,
     String lugar,
-    String descripcionEvento,) async {
-  
- final data = {
-    "nombre_evento": nombreEvento,
-    "edicion": edicion,
-    "convocatoria": convocatoria,
-    "nivel": nivel,
-    "es_copa": esCopa,
-    "fecha_inicio_evento": fechaInicioEvento,
-    "fecha_fin_evento": fechaFinEvento,
-    "curso": curso,
-    "lugar": lugar,
-    "descripcion_evento": descripcionEvento,
-    "plantilla": plantilla
-};
- //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
- final responseBody = await _postEvent( data);
+    String descripcionEvento,
+  ) async {
+    final data = {
+      "nombre_evento": nombreEvento,
+      "edicion": edicion,
+      "convocatoria": convocatoria,
+      "nivel": nivel,
+      "es_copa": esCopa,
+      "fecha_inicio_evento": fechaInicioEvento,
+      "fecha_fin_evento": fechaFinEvento,
+      "curso": curso,
+      "lugar": lugar,
+      "descripcion_evento": descripcionEvento,
+      "plantilla": plantilla
+    };
+    //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
+    final responseBody = await _postEvent(data);
 
- // Suponiendo que el servidor devuelve el vuelo actualizado en formato JSON
- final updateStudenJson = json.decode(responseBody);
- final updatedEvent = Event.fromJson(updateStudenJson);
+    // Suponiendo que el servidor devuelve el vuelo actualizado en formato JSON
+    final updateStudenJson = json.decode(responseBody);
+    final updatedEvent = Event.fromJson(updateStudenJson);
 //TODO:ACTUALIZAR CLIENTETRAMITE
- }
+  }
 
- notifyListeners(); // Notifica a los oyentes una vez después de realizar todos los cambios
+  @override
+  notifyListeners(); // Notifica a los oyentes una vez después de realizar todos los cambios
 
-
-  
-
-searchEvent(String query) async {
+  searchEvent(String query) async {
     final url = Uri.http(
       'http://$ip/core/api/v1/',
       '/Evento/search/$query',
@@ -278,7 +310,6 @@ searchEvent(String query) async {
   void getSuggestionsByQuery(String SearchTerm) {
     debouncer.value = '';
     debouncer.onValue = (value) async {
-  
       final results = await searchEvent(value);
       _suggestionStreamController.add(results);
     };

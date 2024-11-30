@@ -4,15 +4,10 @@ import 'package:app_tesis_yaliana/providers/bloc/loguinBloc/provider.dart';
 import 'package:app_tesis_yaliana/providers/student_provider.dart';
 import 'package:app_tesis_yaliana/screens/StudentView/student_home_screen.dart';
 import 'package:app_tesis_yaliana/screens/login_screen.dart';
-import 'package:app_tesis_yaliana/ui/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/user_provider.dart';
-import '../../widgets/alarms_dialog.dart';
-
-
 
 class RegisterStudentScreen extends StatefulWidget {
   const RegisterStudentScreen({super.key});
@@ -116,11 +111,11 @@ class _RegisterStudentScreenState extends State<RegisterStudentScreen> {
                 const SizedBox(
                   height: 22.0,
                 ),
-               _crearGrupo(bloc),
+                _crearGrupo(bloc),
                 const SizedBox(
                   height: 22.0,
                 ),
-                
+
                 const SizedBox(
                   height: 20.0,
                 ),
@@ -209,11 +204,13 @@ class _RegisterStudentScreenState extends State<RegisterStudentScreen> {
   }
 
   _register(LoginBloc bloc, BuildContext context) async {
-    final studentprovider = Provider.of<EstudianteProvider>(context,listen: false);
-    final info = await studentprovider.postEstudiante(bloc.indice,bloc.facultad,bloc.grupo );
+    final studentprovider =
+        Provider.of<EstudianteProvider>(context, listen: false);
+    final info = await studentprovider.postEstudiante(
+        bloc.indice, bloc.facultad, bloc.grupo);
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const EventSelectorScreen(),
-      ));
+      builder: (context) => const EventSelectorScreen(),
+    ));
     // if (info['ok']) {
     //   ScaffoldMessenger.of(context)
     //       .showSnackBar( SnackBar(
@@ -253,6 +250,7 @@ class _RegisterStudentScreenState extends State<RegisterStudentScreen> {
       },
     );
   }
+
   Widget _crearFacultad(LoginBloc bloc) {
     return StreamBuilder(
       stream: bloc.facultadStream,
@@ -276,6 +274,7 @@ class _RegisterStudentScreenState extends State<RegisterStudentScreen> {
       },
     );
   }
+
   Widget _crearIndice(LoginBloc bloc) {
     return StreamBuilder(
       stream: bloc.indiceStream,
@@ -283,8 +282,6 @@ class _RegisterStudentScreenState extends State<RegisterStudentScreen> {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: TextField(
-          
-
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               border:
@@ -301,6 +298,7 @@ class _RegisterStudentScreenState extends State<RegisterStudentScreen> {
       },
     );
   }
+
   Widget _crearGrupo(LoginBloc bloc) {
     return StreamBuilder(
       stream: bloc.grupoStream,
@@ -308,8 +306,6 @@ class _RegisterStudentScreenState extends State<RegisterStudentScreen> {
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: TextField(
-          
-
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               border:
@@ -326,6 +322,7 @@ class _RegisterStudentScreenState extends State<RegisterStudentScreen> {
       },
     );
   }
+
   Widget _crearConfirmarPassword(LoginBloc bloc) {
     return StreamBuilder(
       stream: bloc.confirmarPasswordStream,

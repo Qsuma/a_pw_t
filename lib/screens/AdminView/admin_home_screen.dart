@@ -11,28 +11,27 @@ class EventManagementScreen extends StatefulWidget {
 }
 
 class _EventManagementScreenState extends State<EventManagementScreen> {
-   String _selectedView='Eventos';
+  String _selectedView = 'Eventos';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Row(
+        title: Row(
           children: [
             Wrap(
               children: [
                 const Icon(Icons.event, color: Colors.black),
-            const SizedBox(width: 8),
-            SizedBox(
-              width: MediaQuery.of(context).size.width*0.2,
-              child: const Text(
-                'Administrador Screen',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  overflow: TextOverflow.ellipsis
+                const SizedBox(width: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  child: const Text(
+                    'Administrador Screen',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        overflow: TextOverflow.ellipsis),
+                  ),
                 ),
-              ),
-            ),
               ],
             )
           ],
@@ -40,54 +39,55 @@ class _EventManagementScreenState extends State<EventManagementScreen> {
         backgroundColor: Colors.white,
         elevation: 1,
         actions: [
-           Row(
-            
+          Row(
             children: [
               SizedBox(
-                width: MediaQuery.of(context).size.width*0.6,
+                width: MediaQuery.of(context).size.width * 0.6,
                 child: Wrap(
                   alignment: WrapAlignment.end,
                   children: [
                     _buildHeaderLinkWidget(
                       selectedView: _selectedView,
-                      function: (){
+                      function: () {
                         setState(() {
-                          _selectedView ='Eventos';
+                          _selectedView = 'Eventos';
                         });
                       },
                       text: 'Eventos',
                     ),
                     _buildHeaderLinkWidget(
                       selectedView: _selectedView,
-                      function: (){
+                      function: () {
                         setState(() {
-                          _selectedView ='Comisión';
+                          _selectedView = 'Comisión';
                         });
                       },
                       text: 'Comisión',
                     ),
-                    
-                    
                     _buildHeaderLinkWidget(
                       selectedView: _selectedView,
-                      function: (){
+                      function: () {
                         setState(() {
-                          _selectedView ='Profesor';
+                          _selectedView = 'Profesor';
                         });
                       },
                       text: 'Crear Profesor',
                     ),
-                    
-          const SizedBox(width: 10),
+                    const SizedBox(width: 10),
                   ],
                 ),
               )
             ],
           ),
-          
         ],
       ),
-      body:(_selectedView=='Eventos')? const EventView():(_selectedView=='Comisión')? const ComisionView():(_selectedView=='Profesor')?RegisterProfesorScreen():Container(),
+      body: (_selectedView == 'Eventos')
+          ? const EventView()
+          : (_selectedView == 'Comisión')
+              ? const ComisionView()
+              : (_selectedView == 'Profesor')
+                  ? RegisterProfesorScreen()
+                  : Container(),
     );
   }
 }
@@ -96,7 +96,8 @@ class _buildHeaderLinkWidget extends StatelessWidget {
   final String selectedView;
   final String text;
   final Function function;
-  const _buildHeaderLinkWidget({required this.text, required this.function, required this.selectedView});
+  const _buildHeaderLinkWidget(
+      {required this.text, required this.function, required this.selectedView});
 
   @override
   Widget build(BuildContext context) {
@@ -104,9 +105,12 @@ class _buildHeaderLinkWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: TextButton(
         style: ButtonStyle(
-          backgroundColor: (selectedView==text)?const WidgetStatePropertyAll(Colors.blue):const WidgetStatePropertyAll(Colors.white)
-        ),
-        onPressed: () {function();},
+            backgroundColor: (selectedView == text)
+                ? const WidgetStatePropertyAll(Colors.blue)
+                : const WidgetStatePropertyAll(Colors.white)),
+        onPressed: () {
+          function();
+        },
         child: Text(
           text,
           style: const TextStyle(
@@ -116,6 +120,5 @@ class _buildHeaderLinkWidget extends StatelessWidget {
         ),
       ),
     );
-    
   }
 }

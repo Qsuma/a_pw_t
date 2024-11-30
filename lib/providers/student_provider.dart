@@ -3,35 +3,22 @@
 import 'dart:async';
 import 'dart:convert';
 
-
 import 'package:app_tesis_yaliana/models/Student.dart';
 import 'package:app_tesis_yaliana/utils/preferencias_usuario.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
-
-
 import '../helpers/debouncer.dart';
 
-
-
-
-
-
 class EstudianteProvider extends ChangeNotifier {
- final Dio dio=Dio();
+  final Dio dio = Dio();
   final prefs = PreferenciasDeUsuario();
- 
- final _baseURL='192.168.150.65/core/api/v1/';
- 
 
+  final _baseURL = '192.168.150.65/core/api/v1/';
 
   List<Estudiante> estudiantes = [];
-  int page=0;
-  
- 
-  
+  int page = 0;
 
   final debouncer = Debouncer(
     duration: const Duration(milliseconds: 500),
@@ -43,7 +30,7 @@ class EstudianteProvider extends ChangeNotifier {
       _suggestionStreamController.stream;
   EstudianteProvider();
 
-   _postEstudiante(Map<String, dynamic> data) async {
+  _postEstudiante(Map<String, dynamic> data) async {
     final prefs = PreferenciasDeUsuario();
 
     var options = Options(
@@ -107,7 +94,7 @@ class EstudianteProvider extends ChangeNotifier {
     }
   }
 
-  Future<String> _getJsonData(Map<String, dynamic> data, {int page = 1}) async {
+  Future<String> _getJsonData(Map<String, dynamic> data) async {
     final prefs = PreferenciasDeUsuario();
     var options = Options(
       method: 'GET',
@@ -138,8 +125,7 @@ class EstudianteProvider extends ChangeNotifier {
     }
   }
 
-  Future<String> _patchEstudiante(
-       Map<String, dynamic> data) async {
+  Future<String> _patchEstudiante(Map<String, dynamic> data) async {
     final prefs = PreferenciasDeUsuario();
     var options = Options(
       method: 'PATCH',
@@ -168,69 +154,65 @@ class EstudianteProvider extends ChangeNotifier {
       throw Exception('Error al realizar la solicitud: $e');
     }
   }
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-getEstudiante(int id)async{
-  //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
-var data ={
- "id":id.toString()
-};
-  final jsonData = await _getJsonData(data);
-  final clientResponse = Estudiante.fromRawJson(jsonData);
-  
-  notifyListeners();
-  return clientResponse;
-}
-deleteEstudiante(int id)async{
-  //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
-  final response = await _deleteEstudiante(id);
-  if (response == 'Eliminado Con Exito') {
+  getEstudiante(int id) async {
+    //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
+    var data = {"id": id.toString()};
+    final jsonData = await _getJsonData(data);
+    final clientResponse = Estudiante.fromRawJson(jsonData);
+
+    notifyListeners();
+    return clientResponse;
+  }
+
+  deleteEstudiante(int id) async {
+    //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
+    final response = await _deleteEstudiante(id);
+    if (response == 'Eliminado Con Exito') {
       //TODO:ACTUALIZAR CLIENTETRAMITE
-  notifyListeners();
-  return response;
-}
+      notifyListeners();
+      return response;
+    }
+  }
 
-}
-patchEstudiante(String indice,facultad,grupo) async {
-  
- final data = {
-    "idestudiante":prefs.userid,
-    "indice": indice,
-    "facultad": facultad,
-    "grupo": grupo
- };
- //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
- final responseBody = await _patchEstudiante( data);
+  patchEstudiante(String indice, facultad, grupo) async {
+    final data = {
+      "idestudiante": prefs.userid,
+      "indice": indice,
+      "facultad": facultad,
+      "grupo": grupo
+    };
+    //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
+    final responseBody = await _patchEstudiante(data);
 
- 
- final updateEstudianteJson = json.decode(responseBody);
- final updatedEstudiante = Estudiante.fromJson(updateEstudianteJson);
+    final updateEstudianteJson = json.decode(responseBody);
+    final updatedEstudiante = Estudiante.fromJson(updateEstudianteJson);
 //TODO:ACTUALIZAR CLIENTETRAMITE
 
- notifyListeners(); 
- }
-postEstudiante(String indice,facultad,grupo) async {
-  
- final data = {
-    "idestudiante": prefs.userid,
-    "indice": indice,
-    "facultad": facultad,
-    "grupo": grupo
- };
- //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
- final responseBody = await _postEstudiante( data);
+    notifyListeners();
+  }
 
- // Suponiendo que el servidor devuelve el vuelo actualizado en formato JSON
+  postEstudiante(String indice, facultad, grupo) async {
+    final data = {
+      "idestudiante": prefs.userid,
+      "indice": indice,
+      "facultad": facultad,
+      "grupo": grupo
+    };
+    //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
+    final responseBody = await _postEstudiante(data);
+
+    // Suponiendo que el servidor devuelve el vuelo actualizado en formato JSON
 // final updateStudenJson = json.decode(responseBody);
- final updatedEstudiante = Estudiante.fromJson(responseBody);
+    final updatedEstudiante = Estudiante.fromJson(responseBody);
 //TODO:ACTUALIZAR CLIENTETRAMITE
- }
+  }
 
- notifyListeners(); // Notifica a los oyentes una vez después de realizar todos los cambios
+  @override
+  notifyListeners(); // Notifica a los oyentes una vez después de realizar todos los cambios
 
-
-  
-
-searchEstudiante(String query) async {
+  searchEstudiante(String query) async {
     final url = Uri.http(
       'http://192.168.150.65/core/api/v1/',
       '/Estudiante/search/$query',
@@ -244,7 +226,6 @@ searchEstudiante(String query) async {
   void getSuggestionsByQuery(String SearchTerm) {
     debouncer.value = '';
     debouncer.onValue = (value) async {
-  
       final results = await searchEstudiante(value);
       _suggestionStreamController.add(results);
     };

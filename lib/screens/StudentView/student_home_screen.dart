@@ -1,5 +1,3 @@
-import 'package:app_tesis_yaliana/screens/AdminView/comision_view.dart';
-import 'package:app_tesis_yaliana/screens/AdminView/event_view.dart';
 import 'package:app_tesis_yaliana/screens/StudentView/student_events_view.dart';
 import 'package:flutter/material.dart';
 
@@ -11,28 +9,27 @@ class EventSelectorScreen extends StatefulWidget {
 }
 
 class _EventSelectorScreenState extends State<EventSelectorScreen> {
-   String _selectedView='Eventos';
+  String _selectedView = 'Eventos';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Row(
+        title: Row(
           children: [
             Wrap(
               children: [
                 const Icon(Icons.event, color: Colors.black),
-            const SizedBox(width: 8),
-            SizedBox(
-              width: MediaQuery.of(context).size.width*0.2,
-              child: const Text(
-                'Student Screen',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  overflow: TextOverflow.ellipsis
+                const SizedBox(width: 8),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  child: const Text(
+                    'Student Screen',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        overflow: TextOverflow.ellipsis),
+                  ),
                 ),
-              ),
-            ),
               ],
             )
           ],
@@ -40,46 +37,42 @@ class _EventSelectorScreenState extends State<EventSelectorScreen> {
         backgroundColor: Colors.white,
         elevation: 1,
         actions: [
-           Row(
-            
+          Row(
             children: [
               SizedBox(
-                width: MediaQuery.of(context).size.width*0.6,
+                width: MediaQuery.of(context).size.width * 0.6,
                 child: Wrap(
                   alignment: WrapAlignment.end,
                   children: [
                     _BuildHeaderLinkWidget(
                       selectedView: _selectedView,
-                      function: (){
+                      function: () {
                         setState(() {
-                          _selectedView ='Eventos';
+                          _selectedView = 'Eventos';
                         });
                       },
                       text: 'Eventos',
                     ),
-                    
-                    
-                    
                     _BuildHeaderLinkWidget(
                       selectedView: _selectedView,
-                      function: (){
+                      function: () {
                         setState(() {
-                          _selectedView ='Opciones';
+                          _selectedView = 'Opciones';
                         });
                       },
                       text: 'Opciones',
                     ),
-                    
-          const SizedBox(width: 10),
+                    const SizedBox(width: 10),
                   ],
                 ),
               )
             ],
           ),
-          
         ],
       ),
-      body:(_selectedView=='Eventos')? const StudentEventsView():Container(),
+      body: (_selectedView == 'Eventos')
+          ? const StudentEventsView()
+          : Container(),
     );
   }
 }
@@ -88,7 +81,8 @@ class _BuildHeaderLinkWidget extends StatelessWidget {
   final String selectedView;
   final String text;
   final Function function;
-  const _BuildHeaderLinkWidget({required this.text, required this.function, required this.selectedView});
+  const _BuildHeaderLinkWidget(
+      {required this.text, required this.function, required this.selectedView});
 
   @override
   Widget build(BuildContext context) {
@@ -96,9 +90,12 @@ class _BuildHeaderLinkWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: TextButton(
         style: ButtonStyle(
-          backgroundColor: (selectedView==text)?const WidgetStatePropertyAll(Colors.blue):const WidgetStatePropertyAll(Colors.white)
-        ),
-        onPressed: () {function();},
+            backgroundColor: (selectedView == text)
+                ? const WidgetStatePropertyAll(Colors.blue)
+                : const WidgetStatePropertyAll(Colors.white)),
+        onPressed: () {
+          function();
+        },
         child: Text(
           text,
           style: const TextStyle(
@@ -108,6 +105,5 @@ class _BuildHeaderLinkWidget extends StatelessWidget {
         ),
       ),
     );
-    
   }
 }

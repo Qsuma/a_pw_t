@@ -16,7 +16,6 @@ class EventView extends StatelessWidget {
           //   showDialog(context: context, builder: (context) => const CreateEventView(),);
           // },),
           _headerAppbarWidget(
-              
               buttonText: 'Añadir Evento',
               function: () {
                 showDialog(
@@ -156,13 +155,9 @@ class _buildHeaderSectionWidget extends StatelessWidget {
 }
 
 class _headerAppbarWidget extends StatelessWidget {
- 
   final String buttonText;
   final Function function;
-  const _headerAppbarWidget(
-      {super.key,
-
-      required this.function, required this.buttonText});
+  const _headerAppbarWidget({required this.function, required this.buttonText});
 
   @override
   Widget build(BuildContext context) {
@@ -199,7 +194,6 @@ class _headerAppbarWidget extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-              
               onPressed: () {
                 function();
               },
@@ -209,11 +203,13 @@ class _headerAppbarWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                 ),
               ),
-              child: Text(buttonText,style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold
-              ),),
+              child: Text(
+                buttonText,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
           ],
         ),
