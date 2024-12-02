@@ -1,7 +1,9 @@
 import 'package:app_tesis_yaliana/providers/bloc/loguinBloc/provider.dart';
 import 'package:app_tesis_yaliana/providers/event_provider.dart';
 import 'package:app_tesis_yaliana/providers/student_provider.dart';
+import 'package:app_tesis_yaliana/providers/work_provider.dart';
 import 'package:app_tesis_yaliana/screens/AdminView/admin_home_screen.dart';
+import 'package:app_tesis_yaliana/screens/StudentView/student_home_screen.dart';
 
 import 'package:app_tesis_yaliana/ui/theme.dart';
 import 'package:flutter/material.dart';
@@ -30,12 +32,15 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
             create: (context) => EventProvider(),
           ),
+          ChangeNotifierProvider(
+            create: (context) => WorkProvider(),
+          ),
         ],
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'App Eventos',
             theme: theme,
-            home: const EventManagementScreen()
+            home: const EventSelectorScreen()
             // home: LoginScreen(),
             ),
       ),

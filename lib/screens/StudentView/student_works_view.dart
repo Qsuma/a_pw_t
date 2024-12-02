@@ -1,49 +1,50 @@
-import 'package:app_tesis_yaliana/providers/event_provider.dart';
+import 'package:app_tesis_yaliana/providers/work_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class StudentEventsView extends StatefulWidget {
-  const StudentEventsView({
+class StudentWorksView extends StatefulWidget {
+  const StudentWorksView({
     super.key,
   });
 
   @override
-  State<StudentEventsView> createState() => _StudentEventsViewState();
+  State<StudentWorksView> createState() => _StudentWorksViewState();
 }
 
-class _StudentEventsViewState extends State<StudentEventsView> {
+class _StudentWorksViewState extends State<StudentWorksView> {
   @override
   Widget build(BuildContext context) {
-    final eventProvider = Provider.of<EventProvider>(context);
+     final workProvider = Provider.of<WorkProvider>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-      child:
-          // _buildHeaderSectionWidget(title: 'Gestionar Eventos',buttonText: 'Añadir Evento',function: (){
-          //   showDialog(context: context, builder: (context) => const CreateEventView(),);
-          // },),
-
-          ListView.builder(
-        itemCount: eventProvider.eventos.length + 1,
+      child:  ListView.builder(
+        itemCount: workProvider.works.length + 1,
         itemBuilder: (BuildContext context, int index) {
           return (index == 0)
               ? _HeaderAppbarWidget()
-              : _BuildEventCardWidget(
+              : _BuildWorkCardWidget(
                   description:
-                      eventProvider.eventos[index - 1].descripcionEvento,
-                  title: eventProvider.eventos[index - 1].nombreEvento);
+                      workProvider.works[index - 1].categoria,
+                     name: workProvider.works[index - 1].titulo,
+                     status: workProvider.works[index-1].estadoRevision, );
         },
       ),
-      //showDialog(context: context, builder: (context) => const CreateEventView(),);
     );
   }
 }
 
 //
 
-class _BuildEventCardWidget extends StatelessWidget {
+class _BuildWorkCardWidget extends StatelessWidget {
+  final String name;
   final String description;
-  final String title;
-  const _BuildEventCardWidget({required this.description, required this.title});
+  final String status;
+
+  const _BuildWorkCardWidget({
+    required this.name,
+    required this.description,
+    required this.status,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +62,7 @@ class _BuildEventCardWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  title,
+                  name,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -78,16 +79,7 @@ class _BuildEventCardWidget extends StatelessWidget {
                 ),
               ],
             ),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF0d7cf2),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              ),
-              child: const Text('Edit'),
-            ),
+            StatusIndicator(status: status),
           ],
         ),
       ),
@@ -171,5 +163,41 @@ class _HeaderAppbarWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class StatusIndicator extends StatelessWidget {
+  final String status;
+
+  const StatusIndicator({required this.status});
+
+  @override
+  Widget build(BuildContext context) {
+    switch (status.toLowerCase()) {
+      case 'completed':
+        return CircleAvatar(
+          radius: 15,
+          backgroundColor: Colors.green,
+          child: Icon(Icons.check, color: Colors.white),
+        );
+      case 'in_progress':
+        return CircleAvatar(
+          radius: 15,
+          backgroundColor: Colors.orange,
+          child: Icon(Icons.play_circle_filled, color: Colors.white),
+        );
+      case 'pending':
+        return CircleAvatar(
+          radius: 15,
+          backgroundColor: Colors.red,
+          child: Icon(Icons.hourglass_empty, color: Colors.white),
+        );
+      default:
+        return CircleAvatar(
+          radius: 15,
+          backgroundColor: Colors.grey[300],
+          child: Text(status[0].toUpperCase()),
+        );
+    }
   }
 }

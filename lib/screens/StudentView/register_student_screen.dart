@@ -17,6 +17,8 @@ class RegisterStudentScreen extends StatefulWidget {
 }
 
 class _RegisterStudentScreenState extends State<RegisterStudentScreen> {
+    final _usernameController = TextEditingController(text: '');
+  final _passwordController = TextEditingController(text: '');
   final userRegisterProvider = UserProvider();
   bool flag = true;
   bool flagConfirm = true;
@@ -98,6 +100,14 @@ class _RegisterStudentScreenState extends State<RegisterStudentScreen> {
                 _crearName(bloc),
                 const SizedBox(
                   height: 22.0,
+                ),
+                  _crearUser(bloc),
+                const SizedBox(
+                  height: 30.0,
+                ),
+                _crearPassword(bloc),
+                const SizedBox(
+                  height: 10.0,
                 ),
                 _crearFacultad(bloc),
                 const SizedBox(
@@ -250,7 +260,29 @@ class _RegisterStudentScreenState extends State<RegisterStudentScreen> {
       },
     );
   }
-
+  Widget _crearUser(LoginBloc bloc) {
+    return StreamBuilder(
+      stream: bloc.userStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: TextFormField(
+            controller: _usernameController,
+            keyboardType: TextInputType.name,
+            decoration: InputDecoration(
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
+              hintText: 'Inserte Usuario',
+              labelText: 'Usuario',
+              errorText: snapshot.error?.toString(),
+              suffixIcon: const Icon(Icons.person_2_outlined),
+            ),
+            onChanged: (value) => bloc.changeUser(value),
+          ),
+        );
+      },
+    );
+  }
   Widget _crearFacultad(LoginBloc bloc) {
     return StreamBuilder(
       stream: bloc.facultadStream,

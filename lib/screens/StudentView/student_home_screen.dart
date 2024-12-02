@@ -1,4 +1,5 @@
 import 'package:app_tesis_yaliana/screens/StudentView/student_events_view.dart';
+import 'package:app_tesis_yaliana/screens/StudentView/student_works_view.dart';
 import 'package:flutter/material.dart';
 
 class EventSelectorScreen extends StatefulWidget {
@@ -57,10 +58,10 @@ class _EventSelectorScreenState extends State<EventSelectorScreen> {
                       selectedView: _selectedView,
                       function: () {
                         setState(() {
-                          _selectedView = 'Opciones';
+                          _selectedView = 'Trabajos';
                         });
                       },
-                      text: 'Opciones',
+                      text: 'Trabajos',
                     ),
                     const SizedBox(width: 10),
                   ],
@@ -72,7 +73,7 @@ class _EventSelectorScreenState extends State<EventSelectorScreen> {
       ),
       body: (_selectedView == 'Eventos')
           ? const StudentEventsView()
-          : Container(),
+          : const StudentWorksView(),
     );
   }
 }

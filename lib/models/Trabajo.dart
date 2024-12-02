@@ -1,5 +1,33 @@
 import 'dart:convert';
 
+class ListWorks {
+  ListWorks({
+    required this.results,
+  });
+  List<Trabajo> results;
+
+  factory ListWorks.fromJson(String str){
+    if (str !="Error" &&  str!="{}") {
+      return ListWorks.fromMap(json.decode(str));
+    }
+      else {
+        const str2="{"
+            "results: []"
+            "}";
+        return ListWorks.fromMap(json.decode(str2));
+      }
+
+  }
+
+
+
+  factory ListWorks.fromMap(Map<String, dynamic> json){
+    return  ListWorks(
+        results: List<Trabajo>.from(json["results"].map((x) => Trabajo.fromRawJson(x))),
+      );
+  }
+
+}
 class Trabajo {
     final int idtrabajo;
     final String titulo;

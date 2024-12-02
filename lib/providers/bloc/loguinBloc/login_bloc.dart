@@ -80,12 +80,14 @@ class LoginBloc with Validators {
   // Combinación de Streams con RXDart'
   Stream<bool> get loginFormValidStream =>
       Rx.combineLatest2(userStream, passwordStream, (e, p) => true);
-  Stream<bool> get registerStudentFormValidStream => Rx.combineLatest4(
+  Stream<bool> get registerStudentFormValidStream => Rx.combineLatest6(
       nameStream,
+      userStream,
+      passwordStream,
       indiceStream,
       grupoStream,
       facultadStream,
-      (n, i, g, f) => true);
+      (n,u,p, i, g, f) => true);
   Stream<bool> get registerFormValidStream => Rx.combineLatest3(
       nameStream, confirmarPasswordStream, passwordStream, (n, ln, p) => true);
   Stream<bool> get createClientFormValidStream => Rx.combineLatest6(

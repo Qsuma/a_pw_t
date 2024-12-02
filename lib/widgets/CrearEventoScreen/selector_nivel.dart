@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SelectorNivel extends StatefulWidget {
   final Function(String?) onValueChange;
 
-  const SelectorNivel({Key? key, required this.onValueChange}) : super(key: key);
+  const SelectorNivel({super.key, required this.onValueChange});
 
   @override
   _SelectorNivelState createState() => _SelectorNivelState();
@@ -25,8 +25,7 @@ class _SelectorNivelState extends State<SelectorNivel> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text('Nivel:',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)
-        ),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -38,7 +37,6 @@ class _SelectorNivelState extends State<SelectorNivel> {
                   groupValue: _opcionSeleccionada,
                   onChanged: (String? newValue) => _actualizarValor(newValue),
                 ),
-               
               ),
             ),
             Expanded(
@@ -49,7 +47,6 @@ class _SelectorNivelState extends State<SelectorNivel> {
                   groupValue: _opcionSeleccionada,
                   onChanged: (String? newValue) => _actualizarValor(newValue),
                 ),
-                
               ),
             ),
             Expanded(
@@ -70,7 +67,6 @@ class _SelectorNivelState extends State<SelectorNivel> {
                   groupValue: _opcionSeleccionada,
                   onChanged: _actualizarValor,
                 ),
-               
               ),
             ),
           ],

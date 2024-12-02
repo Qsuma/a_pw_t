@@ -1,6 +1,5 @@
 import 'package:app_tesis_yaliana/models/Comision.dart';
 import 'package:app_tesis_yaliana/screens/AdminView/create_comision_view.dart';
-import 'package:app_tesis_yaliana/utils/route_animation.dart';
 import 'package:flutter/material.dart';
 
 class ComisionView extends StatelessWidget {

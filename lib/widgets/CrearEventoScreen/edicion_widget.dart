@@ -6,10 +6,10 @@ class RomanNumeralInput extends StatefulWidget {
   final String initialValue;
 
   const RomanNumeralInput({
-    Key? key,
+    super.key,
     required this.onChanged,
     this.initialValue = '',
-  }) : super(key: key);
+  });
 
   @override
   _RomanNumeralInputState createState() => _RomanNumeralInputState();
@@ -26,14 +26,13 @@ class _RomanNumeralInputState extends State<RomanNumeralInput> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 90,
       height: 30,
       child: TextField(
         controller: _controller,
         decoration: InputDecoration(
           labelText: 'Edición',
-          
         ),
         keyboardType: TextInputType.number,
         inputFormatters: [

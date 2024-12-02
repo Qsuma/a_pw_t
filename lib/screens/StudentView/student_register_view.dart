@@ -5,54 +5,59 @@ class StudentRegisterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 16),
-                Text(
-                  "Registro",
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  "¡Bienvenido! Nos alegra que te unas a la comunidad de EduTech. "
-                  "Por favor, completa el formulario a continuación para registrarte.",
-                  style: TextStyle(fontSize: 16, color: Colors.black),
-                ),
-                SizedBox(height: 24),
-                buildInputField(label: "Nombre y apellidos", placeholder: "Tu nombre"),
-                buildInputField(label: "Índice académico", placeholder: "Tu índice académico"),
-                buildDropdownField(label: "Facultad", options: ["Selecciona tu facultad", "Ingeniería", "Ciencias"]),
-                buildDropdownField(label: "Grupo", options: ["Selecciona tu grupo", "Grupo A", "Grupo B"]),
-                buildCheckbox(),
-                SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                   
-                    padding: EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Registrarse',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-              ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 16),
+            Text(
+              "Registro",
+              style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
             ),
-          ),
-        );
+            SizedBox(height: 8),
+            Text(
+              "¡Bienvenido! Nos alegra que te unas a la comunidad de EduTech. "
+              "Por favor, completa el formulario a continuación para registrarte.",
+              style: TextStyle(fontSize: 16, color: Colors.black),
+            ),
+            SizedBox(height: 24),
+            buildInputField(
+                label: "Nombre y apellidos", placeholder: "Tu nombre"),
+            buildInputField(
+                label: "Índice académico", placeholder: "Tu índice académico"),
+            buildDropdownField(
+                label: "Facultad",
+                options: ["Selecciona tu facultad", "Ingeniería", "Ciencias"]),
+            buildDropdownField(
+                label: "Grupo",
+                options: ["Selecciona tu grupo", "Grupo A", "Grupo B"]),
+            buildCheckbox(),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  'Registrarse',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget buildInputField({required String label, required String placeholder}) {
@@ -61,7 +66,8 @@ class StudentRegisterView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          Text(label,
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           SizedBox(height: 8),
           TextField(
             decoration: InputDecoration(
@@ -78,13 +84,15 @@ class StudentRegisterView extends StatelessWidget {
     );
   }
 
-  Widget buildDropdownField({required String label, required List<String> options}) {
+  Widget buildDropdownField(
+      {required String label, required List<String> options}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          Text(label,
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           SizedBox(height: 8),
           DropdownButtonFormField<String>(
             decoration: InputDecoration(
