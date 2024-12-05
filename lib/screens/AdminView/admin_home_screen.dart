@@ -61,7 +61,7 @@ class _EventManagementScreenState extends State<EventManagementScreen> {
                     _buildHeaderLinkWidget(
                       selectedView: _selectedView,
                       function: ()async{
-                       await launchUrl(Uri.parse('http://$ip/core/api/v1/Evento.'), mode: LaunchMode.externalApplication);
+                       await launchUrl(Uri.parse('http://$ip/admin/'), mode: LaunchMode.externalApplication);
                       },
                       text: 'Admin Panel',
                     ),

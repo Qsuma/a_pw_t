@@ -89,6 +89,37 @@ class WorkProvider extends ChangeNotifier {
     }
   }
 
+  _getJsonDataComision(String data) async {
+    final prefs = PreferenciasDeUsuario();
+    var options = Options(
+      method: 'GET',
+      headers: {
+        'Authorization': prefs.token,
+      },
+    );
+
+    dio.options.contentType = 'application/json';
+
+    dio.options.validateStatus = (status) {
+      return status! < 500;
+    };
+
+    try {
+      final response = await dio.get('http://$ip/core/Trabajos/Comision/$data/',
+          options: options,);
+
+      if (response.statusCode == 200) {
+        return response.data;
+      }
+      if (response.statusCode == 404) {
+        return response.data;
+      }  else {
+        throw Exception('Error al obtener los datos: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error al realizar la solicitud: $e');
+    }
+  }
   _getJsonData(String data) async {
     final prefs = PreferenciasDeUsuario();
     var options = Options(
@@ -105,7 +136,7 @@ class WorkProvider extends ChangeNotifier {
     };
 
     try {
-      final response = await dio.get('http://$ip/core/api/v1/Trabajo/$data/',
+      final response = await dio.get('http://$ip/core/api/v1/Trabajos/Estudiante/$data/',
           options: options,);
 
       if (response.statusCode == 200) {
@@ -150,7 +181,7 @@ class WorkProvider extends ChangeNotifier {
   }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  Future<String> getWorks() async {
+  Future<String> getWorksE() async {
     //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
   
     final   jsonData = await _getJsonData(prefs.userid);
@@ -164,20 +195,18 @@ class WorkProvider extends ChangeNotifier {
     notifyListeners();
     return 'si';
   }
-  Future<String> getWorksByComisionId(String id) async {
+  Future<List<Trabajo>> getWorksByComisionId(String id) async {
     //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
   
-    final   jsonData = await _getJsonData(id);
+    final   jsonData = await _getJsonDataComision(id);
    
-  if (jsonData['detail'] == 'No Trabajo matches the given query.') {
-   works =[];
-    return 'no';
-  }
+  
     final clientResponse = ListWorks.fromMap(jsonData);
     works = clientResponse.results;
     notifyListeners();
-    return 'si';
+    return clientResponse.results;
   }
+  
 
   deleteWork(int id) async {
     //TODO:CAMBIAR POR EL URL CORRESPONDIENTE

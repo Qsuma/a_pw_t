@@ -45,7 +45,7 @@ class Comision {
  
 
   factory Comision.fromJson(Map<String, dynamic> json) => Comision(
-        id: json["id"],
+        id: json["idcomision"],
         tematica: json["tematica"],
         jefe: json["jefe"],
       );

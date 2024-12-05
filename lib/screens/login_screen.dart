@@ -1,6 +1,7 @@
 import 'package:app_tesis_yaliana/providers/bloc/loguinBloc/provider.dart';
 import 'package:app_tesis_yaliana/screens/AdminView/admin_home_screen.dart';
 import 'package:app_tesis_yaliana/screens/ProfesorView/comision_view.dart';
+import 'package:app_tesis_yaliana/screens/ProfesorView/profesor_home_screen.dart';
 import 'package:app_tesis_yaliana/screens/StudentView/register_student_screen.dart';
 import 'package:app_tesis_yaliana/screens/StudentView/student_home_screen.dart';
 
@@ -417,7 +418,7 @@ class _LoginScreenState extends State<LoginScreen> {
         crearRuta(
             (prefs.rol == 'Estudiante')
                 ? const EventSelectorScreen()
-                : (prefs.rol == 'Admin')? EventManagementScreen():ProfesorComisionView(),
+                : (prefs.rol == 'Administrador')? EventManagementScreen():ComisionSelectorScreen(),
             //RegisterScreen(),
             const Duration(milliseconds: 700)),
       );
@@ -425,33 +426,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Alarm().showAlarm(context, 'Error', 'Datos Incorrectos');
     }
 
-    /*.then((value) {
-      if (screensize.width >= 500) {
-        Navigator.push(
-            context,
-            crearRuta(
-                HomeScreenTV(
-                  height: 0.8,
-                  width: 0.6,
-                ),
-                Duration(milliseconds: 700)));
-      } //animcion abajo
-      else
-        Navigator.push(
-          context,
-          crearRuta(
-              HomeScreen(height: 0.5, width: 0.6),
-              //RegisterScreen(),e
-              Duration(milliseconds: 700)),
-        );
-    });
-*/
-    //if ( == 200) {
-
-    //}
-    // else {
-
-    // }
+ 
   }
 }
 
@@ -478,14 +453,3 @@ class circulo extends StatelessWidget {
     );
   }
 }
-/*class prov extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(providers: [
-      ChangeNotifierProvider(
-        create: (_) => MoviesProviders(),
-        lazy: false,
-      ),
-    ]);
-  }
-}*/

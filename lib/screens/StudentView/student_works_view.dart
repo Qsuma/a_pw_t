@@ -15,7 +15,7 @@ class _StudentWorksViewState extends State<StudentWorksView> {
   @override
   Widget build(BuildContext context) {
     final workProvider = Provider.of<WorkProvider>(context);
-    workProvider.getWorks();
+    workProvider.getWorksE();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
       child: ListView.builder(
@@ -133,8 +133,7 @@ class _HeaderAppbarWidget extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         image: const DecorationImage(
-          image: NetworkImage(
-              'https://cdn.usegalileo.ai/stability/e27fa3a1-db88-49ca-bba9-7da4c5b1508c.png'),
+          image: AssetImage('/assets/horizontal.jpeg'),
           fit: BoxFit.cover,
         ),
       ),

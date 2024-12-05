@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProfesorChangeWorkState extends StatefulWidget {
-  final String comisionId;
-  const ProfesorChangeWorkState({super.key, required this.comisionId});
+ 
+  const ProfesorChangeWorkState({super.key});
 
   @override
   _ProfesorChangeWorkStateState createState() =>

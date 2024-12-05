@@ -107,7 +107,7 @@ class ComisionProvider extends ChangeNotifier {
     };
 
     try {
-      final response = await dio.get('http://$ip/core/api/v1/Comision/$data/',
+      final response = await dio.get('http://$ip/core/Comisiones/Profesor/$data/',
           options: options,);
 
       if (response.statusCode == 200) {
@@ -157,29 +157,26 @@ class ComisionProvider extends ChangeNotifier {
   
     final   jsonData = await _getJsonData(prefs.userid);
    
-  if (jsonData['detail'] == 'No Comision matches the given query.') {
-   comisions =[];
-    return 'no';
-  }
-    final clientResponse = ListComisions.fromMap(jsonData);
-    comisions = clientResponse.results;
-    notifyListeners();
-    return 'si';
-  }
-  Future<String> getComisionsByComisionId(String id) async {
-    //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
   
-    final   jsonData = await _getJsonData(id);
-   
-  if (jsonData['detail'] == 'No Comision matches the given query.') {
-   comisions =[];
-    return 'no';
-  }
     final clientResponse = ListComisions.fromMap(jsonData);
     comisions = clientResponse.results;
     notifyListeners();
     return 'si';
   }
+  // Future<String> getCoisionsByComisionId(String id) async {
+  //   //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
+  
+  //   final   jsonData = await _getJsonData(id);
+   
+  // if (jsonData['detail'] == 'No Comision matches the given query.') {
+  //  comisions =[];
+  //   return 'no';
+  // }
+  //   final clientResponse = ListComisions.fromMap(jsonData);
+  //   comisions = clientResponse.results;
+  //   notifyListeners();
+  //   return 'si';
+  // }
 
   deleteComision(int id) async {
     //TODO:CAMBIAR POR EL URL CORRESPONDIENTE

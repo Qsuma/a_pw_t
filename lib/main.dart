@@ -1,4 +1,5 @@
 import 'package:app_tesis_yaliana/providers/bloc/loguinBloc/provider.dart';
+import 'package:app_tesis_yaliana/providers/comision_provider.dart';
 import 'package:app_tesis_yaliana/providers/event_provider.dart';
 import 'package:app_tesis_yaliana/providers/student_provider.dart';
 import 'package:app_tesis_yaliana/providers/work_provider.dart';
@@ -27,6 +28,9 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(
             create: (context) => EstudianteProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => ComisionProvider(),
           ),
           ChangeNotifierProvider(
             create: (context) => EventProvider(),

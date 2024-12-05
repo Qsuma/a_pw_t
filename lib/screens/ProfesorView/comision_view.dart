@@ -1,4 +1,5 @@
 import 'package:app_tesis_yaliana/providers/comision_provider.dart';
+import 'package:app_tesis_yaliana/providers/work_provider.dart';
 import 'package:app_tesis_yaliana/screens/ProfesorView/profesor_comision_work_view.dart';
 import 'package:app_tesis_yaliana/utils/route_animation.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +31,21 @@ class ProfesorComisionView extends StatelessWidget {
                         Navigator.push(
                             context,
                             crearRuta(
-                                ProfesorChangeWorkState(
-                                    comisionId:
-                                        equipos[index - 1].id.toString()),
+                                FutureBuilder(
+                                  future: WorkProvider().getWorksByComisionId(
+                                      equipos[index - 1].id.toString()),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return SizedBox.shrink();
+                                    } else if (snapshot.hasError) {
+                                      return Text('Error: ${snapshot.error}');
+                                    } else if (snapshot.hasData) {
+                                      return ProfesorChangeWorkState();
+                                    }
+                                    return Container();
+                                  },
+                                ),
                                 Duration(milliseconds: 500)));
                       },
                       contentPadding: EdgeInsets.all(16),
@@ -70,8 +83,7 @@ class _HeaderAppbarWidget extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         image: const DecorationImage(
-          image: NetworkImage(
-              'https://cdn.usegalileo.ai/stability/e27fa3a1-db88-49ca-bba9-7da4c5b1508c.png'),
+          image: AssetImage('/assets/horizontal.jpeg'),
           fit: BoxFit.cover,
         ),
       ),

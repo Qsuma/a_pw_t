@@ -165,8 +165,7 @@ class _headerAppbarWidget extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         image: const DecorationImage(
-          image: NetworkImage(
-              'https://cdn.usegalileo.ai/stability/e27fa3a1-db88-49ca-bba9-7da4c5b1508c.png'),
+          image: AssetImage('/assets/horizontal.jpeg'),
           fit: BoxFit.cover,
         ),
       ),
