@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:app_tesis_yaliana/models/Event.dart';
 import 'package:app_tesis_yaliana/providers/event_provider.dart';
@@ -10,6 +11,8 @@ import 'package:app_tesis_yaliana/widgets/esCopa.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:html' as html;
+
 
 class ShowEventView extends StatefulWidget {
   final Event event;
@@ -39,15 +42,59 @@ class _ShowEventViewState extends State<ShowEventView> {
         const Divider(
           color: Colors.white,
         ),
-        const Center(
+        Center(
+          child: GestureDetector(
+            onTap: () async {
+              final base64String = widget.event.plantilla;
+              if (base64String != null && base64String.isNotEmpty) {
+                // Decodificar la cadena base64
+                Uint8List bytes = base64.decode(base64String);
+
+                // Crear un Blob a partir de los bytes del PDF
+                final blob = html.Blob([bytes]);
+
+                // Crear una URL para el Blob (esto permite que el navegador lo trate como un archivo descargable)
+                final url = html.Url.createObjectUrlFromBlob(blob);
+
+                // Crear un enlace de descarga
+                final anchor = html.AnchorElement(href: url)
+                  ..target = 'blank'
+                  ..download =
+                      '${widget.event.nombreEvento}.pdf'; // Establecer el nombre del archivo a descargar
+
+                // Simular un clic en el enlace para que el usuario pueda descargar el archivo
+                anchor.click();
+
+                // Liberar la URL del Blob para evitar problemas de memoria
+                html.Url.revokeObjectUrl(url);
+
+                // Mostrar mensaje de éxito
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Colors.blueAccent,
+                    content: Text('Plantilla descargada con éxito'),
+                  ),
+                );
+              } else {
+                // Mostrar error si la plantilla es nula o vacía
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Colors.redAccent,
+                    content: Text('No se encontró una plantilla válida'),
+                  ),
+                );
+              }
+            },
             child: Text(
-          'lorep ipsum',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-        )),
+              'Descargar Plantilla',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24,color: Colors.redAccent),
+            ),
+          ),
+        ),
         const Divider(
           color: Colors.white,
         ),
-        _createContainer(context, size,widget.event),
+        _createContainer(context, size, widget.event),
       ],
     );
   }
