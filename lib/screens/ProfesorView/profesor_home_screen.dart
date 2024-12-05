@@ -1,20 +1,15 @@
-import 'package:app_tesis_yaliana/screens/AdminView/AD_events_view.dart';
-import 'package:app_tesis_yaliana/screens/AdminView/comision_view.dart';
-import 'package:app_tesis_yaliana/screens/AdminView/event_view.dart';
-import 'package:app_tesis_yaliana/screens/AdminView/register_profesor_screen.dart';
+import 'package:app_tesis_yaliana/screens/ProfesorView/comision_view.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-class EventManagementScreen extends StatefulWidget {
-  const EventManagementScreen({super.key});
+class ComisionSelectorScreen extends StatefulWidget {
+  const ComisionSelectorScreen({super.key});
 
   @override
-  State<EventManagementScreen> createState() => _EventManagementScreenState();
+  State<ComisionSelectorScreen> createState() => _ComisionSelectorScreenState();
 }
 
-class _EventManagementScreenState extends State<EventManagementScreen> {
-  String _selectedView = 'Eventos';
-    final ip = '192.168.91.116';
+class _ComisionSelectorScreenState extends State<ComisionSelectorScreen> {
+  String _selectedView = 'Comision';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +23,7 @@ class _EventManagementScreenState extends State<EventManagementScreen> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.2,
                   child: const Text(
-                    'Administrador Screen',
+                    'Profesor Screen',
                     style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
@@ -49,23 +44,24 @@ class _EventManagementScreenState extends State<EventManagementScreen> {
                 child: Wrap(
                   alignment: WrapAlignment.end,
                   children: [
-                    _buildHeaderLinkWidget(
+                    _BuildHeaderLinkWidget(
                       selectedView: _selectedView,
                       function: () {
                         setState(() {
-                          _selectedView = 'Eventos';
+                          _selectedView = 'Comision';
                         });
                       },
-                      text: 'Eventos',
+                      text: 'Comision',
                     ),
-                    _buildHeaderLinkWidget(
+                    _BuildHeaderLinkWidget(
                       selectedView: _selectedView,
-                      function: ()async{
-                       await launchUrl(Uri.parse('http://$ip/core/api/v1/Evento.'), mode: LaunchMode.externalApplication);
+                      function: () {
+                        setState(() {
+                          _selectedView = 'Opciones';
+                        });
                       },
-                      text: 'Admin Panel',
+                      text: 'Opciones',
                     ),
-                    
                     const SizedBox(width: 10),
                   ],
                 ),
@@ -74,16 +70,18 @@ class _EventManagementScreenState extends State<EventManagementScreen> {
           ),
         ],
       ),
-      body:  ADEventsView(),
+      body: (_selectedView == 'Comision')
+          ?  ProfesorComisionView()
+          :  Container(),
     );
   }
 }
 
-class _buildHeaderLinkWidget extends StatelessWidget {
+class _BuildHeaderLinkWidget extends StatelessWidget {
   final String selectedView;
   final String text;
   final Function function;
-  const _buildHeaderLinkWidget(
+  const _BuildHeaderLinkWidget(
       {required this.text, required this.function, required this.selectedView});
 
   @override

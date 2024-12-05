@@ -1,25 +1,23 @@
+
 import 'package:flutter/material.dart';
 
 class ToggleCopaWidget extends StatefulWidget {
-  final ValueChanged<bool> onChanged;
+  final bool escopa;
 
-  const ToggleCopaWidget({super.key, required this.onChanged});
+  const ToggleCopaWidget({
+    super.key, required this.escopa,
+  });
 
   @override
   _ToggleCopaWidgetState createState() => _ToggleCopaWidgetState();
 }
 
 class _ToggleCopaWidgetState extends State<ToggleCopaWidget> {
-  bool isCopa = false;
-
-  void toggleCopa() {
-    setState(() {
-      widget.onChanged(isCopa);
-    });
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
+     bool isCopa = widget.escopa;
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -45,8 +43,8 @@ class _ToggleCopaWidgetState extends State<ToggleCopaWidget> {
                   activeColor: Colors.white,
                   onChanged: (bool? value) {
                     setState(() {
-                      isCopa = value!;
-                      toggleCopa();
+                      isCopa = isCopa;
+            
                     });
                   },
                 ),

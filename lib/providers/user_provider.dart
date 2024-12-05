@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 
 class UserProvider extends ChangeNotifier {
   final dio = Dio();
-  final ip = '192.168.150.65';
+  final ip = '192.168.91.116';
   final PreferenciasDeUsuario prefs = PreferenciasDeUsuario();
 
   UserProvider();
@@ -17,7 +17,7 @@ class UserProvider extends ChangeNotifier {
     try {
       final response = await dio.post(
           //TODO:URL PARA LOGIN
-          'http://192.168.150.65/register',
+          'http://192.168.91.116/register',
           data: authData);
       var decodedResp = response.data;
 
@@ -50,7 +50,7 @@ class UserProvider extends ChangeNotifier {
 
     final response = await dio.post(
         //TODO:URL PARA LOGUIN
-        'http://192.168.150.65/login',
+        'http://192.168.91.116/login',
         data: authData);
     final decodedResp = response.data;
     if (decodedResp.containsKey('token')) {

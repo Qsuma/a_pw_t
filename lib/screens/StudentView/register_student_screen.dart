@@ -1,11 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:app_tesis_yaliana/providers/bloc/loguinBloc/provider.dart';
-import 'package:app_tesis_yaliana/providers/student_provider.dart';
 import 'package:app_tesis_yaliana/screens/StudentView/student_home_screen.dart';
 import 'package:app_tesis_yaliana/screens/login_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../providers/user_provider.dart';
 
@@ -214,10 +212,12 @@ class _RegisterStudentScreenState extends State<RegisterStudentScreen> {
   }
 
   _register(LoginBloc bloc, BuildContext context) async {
-    final studentprovider =
-        Provider.of<EstudianteProvider>(context, listen: false);
-    final info = await studentprovider.postEstudiante(
-        bloc.indice, bloc.facultad, bloc.grupo);
+    // final studentprovider =
+    //     Provider.of<EstudianteProvider>(context, listen: false);
+  final info = await userRegisterProvider.registerUser(
+      bloc.user,
+      bloc.password,
+    );
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (context) => const EventSelectorScreen(),
     ));

@@ -64,9 +64,7 @@ class ComisionView extends StatelessWidget {
 
   List<Widget> _buildMemberList() {
     final List<Comision> comision = [
-      Comision(tematica: 'Teatro', jefe: 'Pedro Ale'),
-      Comision(tematica: 'Debate', jefe: 'Rey Jesus'),
-      Comision(tematica: 'Arte', jefe: 'Yaliana Mendoza')
+      
     ];
 
     return comision.map((comisions) {

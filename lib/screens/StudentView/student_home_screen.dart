@@ -1,6 +1,9 @@
+import 'package:app_tesis_yaliana/providers/work_provider.dart';
 import 'package:app_tesis_yaliana/screens/StudentView/student_events_view.dart';
 import 'package:app_tesis_yaliana/screens/StudentView/student_works_view.dart';
+import 'package:app_tesis_yaliana/utils/preferencias_usuario.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class EventSelectorScreen extends StatefulWidget {
   const EventSelectorScreen({super.key});
@@ -11,70 +14,72 @@ class EventSelectorScreen extends StatefulWidget {
 
 class _EventSelectorScreenState extends State<EventSelectorScreen> {
   String _selectedView = 'Eventos';
+
   @override
   Widget build(BuildContext context) {
+    final workprovider = Provider.of<WorkProvider>(context);
+    final prefs = PreferenciasDeUsuario();
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Wrap(
-              children: [
-                const Icon(Icons.event, color: Colors.black),
-                const SizedBox(width: 8),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  child: const Text(
-                    'Student Screen',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        overflow: TextOverflow.ellipsis),
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-        backgroundColor: Colors.white,
-        elevation: 1,
-        actions: [
-          Row(
+        appBar: AppBar(
+          title: Row(
             children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.6,
-                child: Wrap(
-                  alignment: WrapAlignment.end,
-                  children: [
-                    _BuildHeaderLinkWidget(
-                      selectedView: _selectedView,
-                      function: () {
-                        setState(() {
-                          _selectedView = 'Eventos';
-                        });
-                      },
-                      text: 'Eventos',
+              Wrap(
+                children: [
+                  const Icon(Icons.event, color: Colors.black),
+                  const SizedBox(width: 8),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    child: const Text(
+                      'Student Screen',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          overflow: TextOverflow.ellipsis),
                     ),
-                    _BuildHeaderLinkWidget(
-                      selectedView: _selectedView,
-                      function: () {
-                        setState(() {
-                          _selectedView = 'Trabajos';
-                        });
-                      },
-                      text: 'Trabajos',
-                    ),
-                    const SizedBox(width: 10),
-                  ],
-                ),
+                  ),
+                ],
               )
             ],
           ),
-        ],
-      ),
-      body: (_selectedView == 'Eventos')
-          ? const StudentEventsView()
-          : const StudentWorksView(),
-    );
+          backgroundColor: Colors.white,
+          elevation: 1,
+          actions: [
+            Row(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  child: Wrap(
+                    alignment: WrapAlignment.end,
+                    children: [
+                      _BuildHeaderLinkWidget(
+                        selectedView: _selectedView,
+                        function: () {
+                          setState(() {
+                            _selectedView = 'Eventos';
+                          });
+                        },
+                        text: 'Eventos',
+                      ),
+                      _BuildHeaderLinkWidget(
+                        selectedView: _selectedView,
+                        function: () {
+                          setState(() {
+                            _selectedView = 'Trabajos';
+                          });
+                        },
+                        text: 'Trabajos',
+                      ),
+                      const SizedBox(width: 10),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
+        body: (_selectedView == 'Eventos')
+            ? const StudentEventsView()
+            : StudentWorksView());
   }
 }
 

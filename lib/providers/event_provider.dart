@@ -12,65 +12,15 @@ import 'package:http/http.dart' as http;
 import '../helpers/debouncer.dart';
 
 class EventProvider extends ChangeNotifier {
+  EventProvider() {
+    getEvent();
+  }
   final Dio dio = Dio();
   final prefs = PreferenciasDeUsuario();
 
-  final _baseURL = '192.168.139.65/core/api/v1/';
+  final _baseURL = '192.168.91.116/core/api/v1/';
 
-  List<Event> eventos = [
-    Event(
-        idevento: 1,
-        nombreEvento: "Festival de Música",
-        edicion: "Primera Edición",
-        convocatoria: true,
-        nivel: "Nacional",
-        esCopa: false,
-        fechaInicioEvento: DateTime(2023, 6, 15),
-        fechaFinEvento: DateTime(2023, 6, 17),
-        curso: "2023-2024",
-        lugar: "Parque Central",
-        descripcionEvento:
-            "Un festival de música que reunirá a artistas nacionales e internacionales."),
-    Event(
-        idevento: 2,
-        nombreEvento: "Maratón de Corriendo",
-        edicion: "Segunda Edición",
-        convocatoria: true,
-        nivel: "Regional",
-        esCopa: false,
-        fechaInicioEvento: DateTime(2023, 8, 12),
-        fechaFinEvento: DateTime(2023, 8, 12),
-        curso: "2023-2024",
-        lugar: "Estadio Municipal",
-        descripcionEvento:
-            "Una competencia de corredores de diferentes edades y niveles."),
-    Event(
-        idevento: 3,
-        nombreEvento: "Concierto de Rock",
-        edicion: "Primera Edición",
-        convocatoria: false,
-        nivel: "Local",
-        esCopa: false,
-        fechaInicioEvento: DateTime(2023, 9, 22),
-        fechaFinEvento: DateTime(2023, 9, 22),
-        curso: "2023-2024",
-        lugar: "Teatro Nacional",
-        descripcionEvento:
-            "Un concierto de rock con bandas locales populares."),
-    Event(
-        idevento: 4,
-        nombreEvento: "Campeonato Estudiantil de Deportes",
-        edicion: "Anual",
-        convocatoria: true,
-        nivel: "Escuelar",
-        esCopa: false,
-        fechaInicioEvento: DateTime(2023, 10, 1),
-        fechaFinEvento: DateTime(2023, 10, 5),
-        curso: "2023-2024",
-        lugar: "Complejo Deportivo Universitario",
-        descripcionEvento:
-            "Un torneo deportivo entre escuelas de la ciudad para estudiantes de diferentes niveles educativos.")
-  ];
+  List<Event> eventos = [];
   int page = 0;
 
   final debouncer = Debouncer(
@@ -78,10 +28,9 @@ class EventProvider extends ChangeNotifier {
   );
   final StreamController<List<Event>> _suggestionStreamController =
       StreamController.broadcast();
-  final ip = '192.168.150.65';
+  final ip = '192.168.91.116';
   Stream<List<Event>> get suggestionStream =>
       _suggestionStreamController.stream;
-  EventProvider();
 
   Future<String> _postEvent(Map<String, dynamic> data) async {
     final prefs = PreferenciasDeUsuario();
@@ -99,7 +48,7 @@ class EventProvider extends ChangeNotifier {
       return status! < 500;
     };
     try {
-      final response = await dio.post('http://$ip/core/api/v1/Evento',
+      final response = await dio.post('http://$ip/core/api/v1/Evento/',
           data: data, options: options);
 
       if (response.statusCode == 200 || response.statusCode == 200) {
@@ -144,7 +93,7 @@ class EventProvider extends ChangeNotifier {
     }
   }
 
-  Future<String> _getJsonData(Map<String, dynamic> data) async {
+  _getJsonData() async {
     final prefs = PreferenciasDeUsuario();
     var options = Options(
       method: 'GET',
@@ -160,8 +109,8 @@ class EventProvider extends ChangeNotifier {
     };
 
     try {
-      final response = await dio.get('http://$ip/core/api/v1/Evento',
-          options: options, data: data);
+      final response =
+          await dio.get('http://$ip/core/api/v1/Evento/', options: options);
 
       if (response.statusCode == 200) {
         return response.data;
@@ -202,14 +151,14 @@ class EventProvider extends ChangeNotifier {
   }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  getEvent(int id) async {
+  getEvent() async {
     //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
-    var data = {"id": id.toString()};
-    final jsonData = await _getJsonData(data);
-    final clientResponse = Event.fromRawJson(jsonData);
 
+    final jsonData = await _getJsonData();
+    final clientResponse = ListEvents.fromMap(jsonData);
+    eventos = clientResponse.results;
     notifyListeners();
-    return clientResponse;
+    return clientResponse.results;
   }
 
   deleteEvent(int id) async {

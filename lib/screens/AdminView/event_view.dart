@@ -1,4 +1,3 @@
-import 'package:app_tesis_yaliana/screens/AdminView/crear_evento_View.dart';
 import 'package:flutter/material.dart';
 
 class EventView extends StatelessWidget {
@@ -18,10 +17,10 @@ class EventView extends StatelessWidget {
           _headerAppbarWidget(
               buttonText: 'Añadir Evento',
               function: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => const CreateEventView(),
-                );
+                // showDialog(
+                //   context: context,
+                //   builder: (context) => const CreateEventView(),
+                // );
               }),
           const _buildEventCardWidget(
             title: 'Event Name',

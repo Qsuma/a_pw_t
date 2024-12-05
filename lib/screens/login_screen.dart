@@ -1,8 +1,9 @@
 import 'package:app_tesis_yaliana/providers/bloc/loguinBloc/provider.dart';
 import 'package:app_tesis_yaliana/screens/AdminView/admin_home_screen.dart';
+import 'package:app_tesis_yaliana/screens/ProfesorView/comision_view.dart';
 import 'package:app_tesis_yaliana/screens/StudentView/register_student_screen.dart';
+import 'package:app_tesis_yaliana/screens/StudentView/student_home_screen.dart';
 
-import 'package:app_tesis_yaliana/screens/register_screen.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 
@@ -278,7 +279,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onTap: () {
                   Navigator.pushReplacement(
                       context,
-                      crearRuta(const RegisterScreen(),
+                      crearRuta(const RegisterStudentScreen(),
                           const Duration(microseconds: 700)));
                 },
               )
@@ -415,8 +416,8 @@ class _LoginScreenState extends State<LoginScreen> {
         context,
         crearRuta(
             (prefs.rol == 'Estudiante')
-                ? const RegisterStudentScreen()
-                : const EventManagementScreen(),
+                ? const EventSelectorScreen()
+                : (prefs.rol == 'Admin')? EventManagementScreen():ProfesorComisionView(),
             //RegisterScreen(),
             const Duration(milliseconds: 700)),
       );

@@ -15,7 +15,7 @@ class EstudianteProvider extends ChangeNotifier {
   final Dio dio = Dio();
   final prefs = PreferenciasDeUsuario();
 
-  final _baseURL = '192.168.150.65/core/api/v1/';
+  final _baseURL = '192.168.91.116/core/api/v1/';
 
   List<Estudiante> estudiantes = [];
   int page = 0;
@@ -47,7 +47,7 @@ class EstudianteProvider extends ChangeNotifier {
     };
     try {
       final response = await dio.post(
-          'http://192.168.150.65/core/api/v1/Estudiante/',
+          'http://192.168.91.116/core/api/v1/Estudiante/',
           data: data,
           options: options);
 
@@ -81,7 +81,7 @@ class EstudianteProvider extends ChangeNotifier {
 
     try {
       final response = await dio.delete(
-          'http://192.168.150.65/core/api/v1/Estudiante/',
+          'http://192.168.91.116/core/api/v1/Estudiante/',
           options: options);
 
       if (response.statusCode == 200) {
@@ -111,7 +111,7 @@ class EstudianteProvider extends ChangeNotifier {
 
     try {
       final response = await dio.get(
-          'http://192.168.150.65/core/api/v1/Estudiante/',
+          'http://192.168.91.116/core/api/v1/Estudiante/',
           options: options,
           data: data);
 
@@ -141,7 +141,7 @@ class EstudianteProvider extends ChangeNotifier {
     };
     try {
       final response = await dio.patch(
-          'http://192.168.150.65/core/api/v1/Estudiante/',
+          'http://192.168.91.116/core/api/v1/Estudiante/',
           data: data,
           options: options);
 
@@ -214,7 +214,7 @@ class EstudianteProvider extends ChangeNotifier {
 
   searchEstudiante(String query) async {
     final url = Uri.http(
-      'http://192.168.150.65/core/api/v1/',
+      'http://192.168.91.116/core/api/v1/',
       '/Estudiante/search/$query',
     );
     final response = await http.get(url, headers: {'auth-token': prefs.token});

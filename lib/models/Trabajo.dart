@@ -21,9 +21,9 @@ class ListWorks {
 
 
 
-  factory ListWorks.fromMap(Map<String, dynamic> json){
+  factory ListWorks.fromMap(List<dynamic> json){
     return  ListWorks(
-        results: List<Trabajo>.from(json["results"].map((x) => Trabajo.fromRawJson(x))),
+        results: List<Trabajo>.from(json.map((x) => Trabajo.fromRawJson(x))),
       );
   }
 
@@ -34,7 +34,7 @@ class Trabajo {
     final String tutor;
     final String cotutor;
     final String contenidoTrabajo;
-    final String estadoRevision;
+    late final String estadoRevision;
     final String categoria;
     final int idcomision;
     final int idevento;

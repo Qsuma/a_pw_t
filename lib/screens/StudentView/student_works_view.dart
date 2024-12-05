@@ -14,19 +14,20 @@ class StudentWorksView extends StatefulWidget {
 class _StudentWorksViewState extends State<StudentWorksView> {
   @override
   Widget build(BuildContext context) {
-     final workProvider = Provider.of<WorkProvider>(context);
+    final workProvider = Provider.of<WorkProvider>(context);
+    workProvider.getWorks();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-      child:  ListView.builder(
+      child: ListView.builder(
         itemCount: workProvider.works.length + 1,
         itemBuilder: (BuildContext context, int index) {
           return (index == 0)
               ? _HeaderAppbarWidget()
               : _BuildWorkCardWidget(
-                  description:
-                      workProvider.works[index - 1].categoria,
-                     name: workProvider.works[index - 1].titulo,
-                     status: workProvider.works[index-1].estadoRevision, );
+                  description: workProvider.works[index - 1].categoria,
+                  name: workProvider.works[index - 1].titulo,
+                  status: workProvider.works[index - 1].estadoRevision,
+                );
         },
       ),
     );
@@ -144,7 +145,7 @@ class _HeaderAppbarWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             const Text(
-              'Seleccione Eventos a participar',
+              'Lista de Sus Trabajos',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 32,
@@ -153,7 +154,7 @@ class _HeaderAppbarWidget extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             const Text(
-              'Lorep Ipsum',
+              '',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 16,
@@ -169,24 +170,24 @@ class _HeaderAppbarWidget extends StatelessWidget {
 class StatusIndicator extends StatelessWidget {
   final String status;
 
-  const StatusIndicator({required this.status});
+  const StatusIndicator({super.key, required this.status});
 
   @override
   Widget build(BuildContext context) {
     switch (status.toLowerCase()) {
-      case 'completed':
+      case 'Completado':
         return CircleAvatar(
           radius: 15,
           backgroundColor: Colors.green,
           child: Icon(Icons.check, color: Colors.white),
         );
-      case 'in_progress':
+      case 'Trabajando':
         return CircleAvatar(
           radius: 15,
           backgroundColor: Colors.orange,
           child: Icon(Icons.play_circle_filled, color: Colors.white),
         );
-      case 'pending':
+      case 'Pendiente':
         return CircleAvatar(
           radius: 15,
           backgroundColor: Colors.red,

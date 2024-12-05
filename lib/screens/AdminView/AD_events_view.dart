@@ -1,19 +1,23 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:app_tesis_yaliana/models/Event.dart';
 import 'package:app_tesis_yaliana/providers/event_provider.dart';
 import 'package:app_tesis_yaliana/screens/StudentView/evento_View.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class StudentEventsView extends StatefulWidget {
-  const StudentEventsView({
+class ADEventsView extends StatefulWidget {
+  const ADEventsView({
     super.key,
   });
 
   @override
-  State<StudentEventsView> createState() => _StudentEventsViewState();
+  State<ADEventsView> createState() => _ADEventsViewState();
 }
 
-class _StudentEventsViewState extends State<StudentEventsView> {
+class _ADEventsViewState extends State<ADEventsView> {
   @override
   Widget build(BuildContext context) {
     final eventProvider = Provider.of<EventProvider>(context);
@@ -55,6 +59,8 @@ class _BuildEventCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String plantilla = '';
+    final eventprovider = Provider.of<EventProvider>(context);
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
@@ -86,24 +92,49 @@ class _BuildEventCardWidget extends StatelessWidget {
                 ),
               ],
             ),
-            ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => ShowEventView(event: event),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF0d7cf2),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              ),
-              child: const Text(
-                'Ver',
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
+            IconButton(
+                onPressed: () async {
+                  FilePickerResult? result =
+                      await FilePicker.platform.pickFiles();
+
+                  if (result != null) {
+                    String base64String = base64Encode(
+                        File(result.files.single.path!).readAsBytesSync());
+                    plantilla = base64String;
+                    eventprovider.patchEvent(
+                        plantilla,
+                        event.nombreEvento,
+                        event.edicion,
+                        event.convocatoria!,
+                        event.nivel,
+                        event.esCopa,
+                        event.fechaInicioEvento!,
+                        event.fechaFinEvento!,
+                        event.curso,
+                        event.lugar,
+                        event.descripcionEvento!);
+                    // Muestra un mensaje de éxito
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          backgroundColor: Colors.blueAccent,
+                          content: Center(
+                              child: Text(
+                            'PDF cargado con éxito',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ))),
+                    );
+                  } else {
+                    // User canceled the picker
+                  }
+                },
+                icon: const Icon(
+                  Icons.add_chart_rounded,
+                  color: Colors.blue,
+                  size: 35,
+                )),
           ],
         ),
       ),
@@ -168,7 +199,7 @@ class _HeaderAppbarWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             const Text(
-              'Seleccione Eventos a participar',
+              'Seleccione Eventos para añadir Plantilla',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 32,
@@ -177,7 +208,7 @@ class _HeaderAppbarWidget extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             const Text(
-              'Lorep Ipsum',
+              'Lista de Eventos',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 16,

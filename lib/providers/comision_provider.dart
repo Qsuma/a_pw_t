@@ -3,7 +3,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:app_tesis_yaliana/models/Trabajo.dart';
+import 'package:app_tesis_yaliana/models/Comision.dart';
 import 'package:app_tesis_yaliana/utils/preferencias_usuario.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,24 +11,26 @@ import 'package:http/http.dart' as http;
 
 import '../helpers/debouncer.dart';
 
-class WorkProvider extends ChangeNotifier {
+class ComisionProvider extends ChangeNotifier {
   final Dio dio = Dio();
   final prefs = PreferenciasDeUsuario();
 
-  List<Trabajo> works = [];
+  List<Comision> comisions = [];
   int page = 0;
 
   final debouncer = Debouncer(
     duration: const Duration(milliseconds: 500),
   );
-  final StreamController<List<Trabajo>> _suggestionStreamController =
+  final StreamController<List<Comision>> _suggestionStreamController =
       StreamController.broadcast();
   final ip = '192.168.91.116';
-  Stream<List<Trabajo>> get suggestionStream =>
+  Stream<List<Comision>> get suggestionStream =>
       _suggestionStreamController.stream;
-  WorkProvider();
+  ComisionProvider(){
+    getComisions();
+  }
 
-  Future<String> _postWork(Map<String, dynamic> data) async {
+  Future<String> _postComision(Map<String, dynamic> data) async {
     final prefs = PreferenciasDeUsuario();
 
     var options = Options(
@@ -44,7 +46,7 @@ class WorkProvider extends ChangeNotifier {
       return status! < 500;
     };
     try {
-      final response = await dio.post('http://$ip/core/api/v1/Trabajo',
+      final response = await dio.post('http://$ip/core/api/v1/Comision',
           data: data, options: options);
 
       if (response.statusCode == 200 || response.statusCode == 200) {
@@ -57,7 +59,7 @@ class WorkProvider extends ChangeNotifier {
     }
   }
 
-  Future<String> _deleteWork(
+  Future<String> _deleteComision(
     int id,
   ) async {
     final prefs = PreferenciasDeUsuario();
@@ -77,7 +79,7 @@ class WorkProvider extends ChangeNotifier {
 
     try {
       final response =
-          await dio.delete('http://$ip/core/api/v1/Trabajo', options: options);
+          await dio.delete('http://$ip/core/api/v1/Comision', options: options);
 
       if (response.statusCode == 200) {
         return 'Eliminado Con Exito';
@@ -105,7 +107,7 @@ class WorkProvider extends ChangeNotifier {
     };
 
     try {
-      final response = await dio.get('http://$ip/core/api/v1/Trabajo/$data/',
+      final response = await dio.get('http://$ip/core/api/v1/Comision/$data/',
           options: options,);
 
       if (response.statusCode == 200) {
@@ -121,7 +123,7 @@ class WorkProvider extends ChangeNotifier {
     }
   }
 
-  Future<String> _patchWork(Map<String, dynamic> data) async {
+  Future<String> _patchComision(Map<String, dynamic> data) async {
     final prefs = PreferenciasDeUsuario();
     var options = Options(
       method: 'PATCH',
@@ -136,7 +138,7 @@ class WorkProvider extends ChangeNotifier {
       return status! < 500;
     };
     try {
-      final response = await dio.patch('http://$ip/core/api/v1/Trabajo/$data/',
+      final response = await dio.patch('http://$ip/core/api/v1/Comision/$data/',
           data: data, options: options);
 
       if (response.statusCode == 200) {
@@ -150,38 +152,38 @@ class WorkProvider extends ChangeNotifier {
   }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  Future<String> getWorks() async {
+  Future<String> getComisions() async {
     //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
   
     final   jsonData = await _getJsonData(prefs.userid);
    
-  if (jsonData['detail'] == 'No Trabajo matches the given query.') {
-   works =[];
+  if (jsonData['detail'] == 'No Comision matches the given query.') {
+   comisions =[];
     return 'no';
   }
-    final clientResponse = ListWorks.fromMap(jsonData);
-    works = clientResponse.results;
+    final clientResponse = ListComisions.fromMap(jsonData);
+    comisions = clientResponse.results;
     notifyListeners();
     return 'si';
   }
-  Future<String> getWorksByComisionId(String id) async {
+  Future<String> getComisionsByComisionId(String id) async {
     //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
   
     final   jsonData = await _getJsonData(id);
    
-  if (jsonData['detail'] == 'No Trabajo matches the given query.') {
-   works =[];
+  if (jsonData['detail'] == 'No Comision matches the given query.') {
+   comisions =[];
     return 'no';
   }
-    final clientResponse = ListWorks.fromMap(jsonData);
-    works = clientResponse.results;
+    final clientResponse = ListComisions.fromMap(jsonData);
+    comisions = clientResponse.results;
     notifyListeners();
     return 'si';
   }
 
-  deleteWork(int id) async {
+  deleteComision(int id) async {
     //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
-    final response = await _deleteWork(id);
+    final response = await _deleteComision(id);
     if (response == 'Eliminado Con Exito') {
       //TODO:ACTUALIZAR CLIENTETRAMITE
       notifyListeners();
@@ -189,26 +191,26 @@ class WorkProvider extends ChangeNotifier {
     }
   }
 
-  patchWork(
+  patchComision(
     String idComision,
     String idEvento,
     String plantilla,
-    String nombreTrabajo,
+    String nombreComision,
     String edicion,
     bool convocatoria,
     String nivel,
     bool esCopa,
-    DateTime fechaInicioTrabajo,
-    DateTime fechaFinTrabajo,
+    DateTime fechaInicioComision,
+    DateTime fechaFinComision,
     String curso,
     String lugar,
-    String descripcionTrabajo,
+    String descripcionComision,
   ) async {
     final data = {
-      "titulo": nombreTrabajo,
+      "titulo": nombreComision,
       "tutor": "",
       "cotutor": "",
-      "contenidoTrabajo": "",
+      "contenidoComision": "",
       "estadoRevision": "",
       "categoria": "",
       "idcomision": idComision,
@@ -218,48 +220,48 @@ class WorkProvider extends ChangeNotifier {
       "convocatoria": convocatoria,
       "nivel": nivel,
       "es_copa": esCopa,
-      "fecha_inicio_trabajo": fechaInicioTrabajo.toIso8601String(),
-      "fecha_fin_trabajo": fechaFinTrabajo.toIso8601String(),
+      "fecha_inicio_comision": fechaInicioComision.toIso8601String(),
+      "fecha_fin_comision": fechaFinComision.toIso8601String(),
       "curso": curso,
       "lugar": lugar,
-      "descripcion_trabajo": descripcionTrabajo
+      "descripcion_comision": descripcionComision
     };
     //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
-    final responseBody = await _patchWork(data);
+    final responseBody = await _patchComision(data);
 
-    final updateWorkJson = json.decode(responseBody);
-    final updatedWork = Trabajo.fromJson(updateWorkJson);
-  final updatedIndex = works.indexWhere((element) => element.idtrabajo == updatedWork.idtrabajo);
+    final updateComisionJson = json.decode(responseBody);
+    final updatedComision = Comision.fromJson(updateComisionJson);
+  final updatedIndex = comisions.indexWhere((element) => element.id == updatedComision.id);
     
-    // Si se encuentra el trabajo actualizado, actualizarlo en la lista
+    // Si se encuentra el comision actualizado, actualizarlo en la lista
     if (updatedIndex != -1) {
-      works[updatedIndex] = updatedWork;
+      comisions[updatedIndex] = updatedComision;
       notifyListeners();
     }
 
     notifyListeners();
   }
 
-  postWork(
+  postComision(
     String idComision,
     String idEvento,
     String plantilla,
-    String nombreTrabajo,
+    String nombreComision,
     String edicion,
     bool convocatoria,
     String nivel,
     bool esCopa,
-    DateTime fechaInicioTrabajo,
-    DateTime fechaFinTrabajo,
+    DateTime fechaInicioComision,
+    DateTime fechaFinComision,
     String curso,
     String lugar,
-    String descripcionTrabajo,
+    String descripcionComision,
   ) async {
     final data = {
-      "titulo": nombreTrabajo,
+      "titulo": nombreComision,
       "tutor": "",
       "cotutor": "",
-      "contenidoTrabajo": "",
+      "contenidoComision": "",
       "estadoRevision": "",
       "categoria": "",
       "idcomision": idComision,
@@ -269,39 +271,39 @@ class WorkProvider extends ChangeNotifier {
       "convocatoria": convocatoria,
       "nivel": nivel,
       "es_copa": esCopa,
-      "fecha_inicio_trabajo": fechaInicioTrabajo.toIso8601String(),
-      "fecha_fin_trabajo": fechaFinTrabajo.toIso8601String(),
+      "fecha_inicio_comision": fechaInicioComision.toIso8601String(),
+      "fecha_fin_comision": fechaFinComision.toIso8601String(),
       "curso": curso,
       "lugar": lugar,
-      "descripcion_trabajo": descripcionTrabajo
+      "descripcion_comision": descripcionComision
     };
     //TODO:CAMBIAR POR EL URL CORRESPONDIENTE
-    final responseBody = await _postWork(data);
+    final responseBody = await _postComision(data);
 
     // Suponiendo que el servidor devuelve el vuelo actualizado en formato JSON
     final updateStudenJson = json.decode(responseBody);
-    final updatedWork = Trabajo.fromJson(updateStudenJson);
+    final updatedComision = Comision.fromJson(updateStudenJson);
 //TODO:ACTUALIZAR CLIENTETRAMITE
   }
 
   @override
   notifyListeners(); // Notifica a los oyentes una vez después de realizar todos los cambios
 
-  searchWork(String query) async {
+  searchComision(String query) async {
     final url = Uri.http(
       'http://$ip/core/api/v1/',
-      '/Trabajo/search/$query',
+      '/Comision/search/$query',
     );
     final response = await http.get(url, headers: {'auth-token': prefs.token});
 
-    final searchResponse = ListWorks.fromJson(response.body);
+    final searchResponse = ListComisions.fromJson(response.body);
     return searchResponse.results;
   }
 
   void getSuggestionsByQuery(String SearchTerm) {
     debouncer.value = '';
     debouncer.onValue = (value) async {
-      final results = await searchWork(value);
+      final results = await searchComision(value);
       _suggestionStreamController.add(results);
     };
     final timer = Timer.periodic(const Duration(milliseconds: 1000), (_) {
